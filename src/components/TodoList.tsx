@@ -1,8 +1,28 @@
-import React from 'react';
-import { TodoListType } from '../types/types';
-import TodoListItem from './TodoListItem';
+import React, { useState } from 'react';
+import { DefaultFilterTypes, FilterValuesType } from '../App';
+import { TaskType } from '../types/types';
+import FilterPanel from './FilterPanel';
+import List from './List';
 
-const TodoList: React.FC<TodoListType> = ({title, tasks}) => {
+
+const TodoList: React.FC<TodoListPropsType> = ({title, tasks, filters}) => {
+
+	const [items, setItems] = useState<Array<TaskType>>(tasks);
+	const [currentFilter, changeFilter] = useState<FilterValuesType>('all');
+
+    const removeItem = (id: number): void => {
+		let changedList = items.filter(el => el.id !== id);
+		setItems(changedList);
+    }
+
+	let allItems = items;
+
+	if (currentFilter === 'active') {
+		allItems = items.filter(el => el.isDone === false);
+	}
+	if (currentFilter === 'completed') {
+		allItems = items.filter(el => el.isDone === true);
+	}
 
     return (
         <div>
@@ -11,16 +31,17 @@ const TodoList: React.FC<TodoListType> = ({title, tasks}) => {
 				<input/>
 				<button>+</button>
 			</div>
-			<ul>
-				{tasks.map(el => <TodoListItem title={el.title} isDone={el.isDone} id={el.id} />)}
-			</ul>
-			<div>
-				<button>All</button>
-				<button>Active</button>
-				<button>Completed</button>
-			</div>
+			<List tasks={allItems} removeItem={removeItem} />
+			<FilterPanel filters={filters} changeFilter={changeFilter} />
 		</div>
     )
 }
 
 export default TodoList;
+
+
+type TodoListPropsType = {
+    title: string
+    tasks: Array<TaskType>
+	filters: DefaultFilterTypes
+}
