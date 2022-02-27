@@ -1,13 +1,14 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 
 
-const AddNewItemForm: React.FC<AddNewItemFormPropsType> = ({ addItem }) => {
+const AddNewItemForm: React.FC<AddNewItemFormPropsType> = ({ listId, addItem }) => {
 
     const [newItemTitle, setNewItemTitle] = useState<string>('');
     const [validationError, setValidationError] = useState<string | null>(null)
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewItemTitle(e.currentTarget.value)
+        setValidationError(null);
     }
 
     const onSubmitHandler = () => {
@@ -18,13 +19,11 @@ const AddNewItemForm: React.FC<AddNewItemFormPropsType> = ({ addItem }) => {
         }
 
         setValidationError(null);
-        addItem(newItemTitle.trim());
+        addItem(newItemTitle.trim(), listId);
         setNewItemTitle('')
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setValidationError(null);
-
         if (e.charCode === 13) {
             onSubmitHandler();
         }
@@ -49,5 +48,6 @@ export default AddNewItemForm;
 
 
 type AddNewItemFormPropsType = {
-    addItem: (itemTitle: string) => void
+    listId: string
+    addItem: (itemTitle: string, todoListId: string) => void
 }

@@ -1,16 +1,16 @@
 import React from 'react';
 import { TaskType } from '../types/types';
 
-const ListItem: React.FC<ListItemPropsType> = ({task, removeItem, changeItemStatus}) => {
+const ListItem: React.FC<ListItemPropsType> = ({listId, task, removeItem, changeItemStatus}) => {
 
     const {title, isDone, id} = task;
 
     const onItemStatusChange = () => {
-        changeItemStatus(id)
+        changeItemStatus(id, listId)
     }
 
     const onRemoveHandler = () => {
-        removeItem(id); 
+        removeItem(id, listId); 
     }
 
     return (
@@ -28,7 +28,8 @@ export default ListItem;
 
 
 type ListItemPropsType =  {
+    listId: string
     task: TaskType
-    removeItem: (id: string) => void
-    changeItemStatus: (id: string) => void
+    removeItem: (taskId: string, todoListId: string) => void
+    changeItemStatus: (taskId: string, todoListId: string) => void
 }

@@ -1,13 +1,13 @@
 import React from 'react';
 import { DefaultFilterTypes, FilterValuesType } from '../App';
 
-const FilterPanel: React.FC<FilterPanelPropsType> = ({filters, currentFilter, changeFilter}) => {
+const FilterPanel: React.FC<FilterPanelPropsType> = ({listId, filters, currentFilter, changeFilter}) => {
     return (
         <div>
             {filters.map(el => (
                 <button key={el.id} 
                         value={el.value}
-                        onClick={() => changeFilter(el.value)}
+                        onClick={() => changeFilter(el.value, listId)}
                         className={el.value === currentFilter ? "filter_active" : ""} >
                     {el.title}
                 </button>
@@ -24,8 +24,9 @@ const FilterPanel: React.FC<FilterPanelPropsType> = ({filters, currentFilter, ch
 export default FilterPanel;
 
 type FilterPanelPropsType = {
+    listId: string
     filters: DefaultFilterTypes
     currentFilter: FilterValuesType
-    changeFilter: (filter: FilterValuesType) => void
+    changeFilter: (filter: FilterValuesType, todoListId: string) => void
 }
 
