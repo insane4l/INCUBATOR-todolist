@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { v1 } from 'uuid';
 import './App.css';
 import TodoList from './components/TodoList';
-import {TaskType} from './types/types';
 
 
 // let todoLists = [
@@ -130,7 +129,13 @@ function App() {
         }
     }
 
+    const deleteList = (listId: string) => {
+        let newTodoLists = todoLists.filter(el => el.id !== listId);
+        setTodoLists(newTodoLists);
 
+        delete taskLists[listId];
+        setTaskLists({...taskLists});
+    }
 	
 
     return (
@@ -156,7 +161,8 @@ function App() {
                     changeTaskStatus={changeTaskStatus}
                     removeTask={removeTask}
                     addTask={addTask}
-                    changeFilter={changeFilter} />
+                    changeFilter={changeFilter}
+                    deleteList={deleteList} />
             })}
         </div>
     );

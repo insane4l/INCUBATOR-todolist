@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { v1 } from 'uuid';
+import React from 'react';
 import { DefaultFilterTypes, FilterValuesType } from '../App';
 import { TaskType } from '../types/types';
 import AddNewItemForm from './AddNewItemForm';
@@ -7,7 +6,7 @@ import FilterPanel from './FilterPanel';
 import List from './List';
 
 
-const TodoList: React.FC<TodoListPropsType> = ({listId, title, currentFilter, tasks, filters, changeTaskStatus, removeTask, addTask, changeFilter}) => {
+const TodoList: React.FC<TodoListPropsType> = ({listId, title, currentFilter, tasks, filters, changeTaskStatus, removeTask, addTask, changeFilter, deleteList}) => {
 
 	// const [items, setItems] = useState<Array<TaskType>>(tasks);
 	// const [currentFilter, changeFilter] = useState<FilterValuesType>('all');
@@ -42,10 +41,14 @@ const TodoList: React.FC<TodoListPropsType> = ({listId, title, currentFilter, ta
 	// }
 	console.log(`todolist id: [${listId}] rerendered`);
 	
+	const onDeleteClickHandler = () => {
+		deleteList(listId);
+	}
 
     return (
         <div>
 			<h3>{title}</h3>
+			<button onClick={onDeleteClickHandler}>Delete list</button>
 			<AddNewItemForm listId={listId} addItem={addTask} />
 			<List listId={listId} tasks={tasks} removeItem={removeTask} changeItemStatus={changeTaskStatus}/>
 			<FilterPanel listId={listId} filters={filters} changeFilter={changeFilter} currentFilter={currentFilter}/>
@@ -66,4 +69,5 @@ type TodoListPropsType = {
 	removeTask: (taskId: string, todoListId: string) => void
 	addTask: (itemTitle: string, todoListId: string) => void
 	changeFilter: (filter: FilterValuesType, todoListId: string) => void
+	deleteList: (todoListId: string) => void
 }
