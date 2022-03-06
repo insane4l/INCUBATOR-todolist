@@ -1,12 +1,13 @@
 import React from 'react';
 import { DefaultFilterTypes, FilterValuesType } from '../App';
 import { TaskType } from '../types/types';
-import AddNewItemForm from './AddNewItemForm';
+import AddNewItemForm from './common/AddNewItemForm';
+import EditableTextLine from './common/EditableTextLine';
 import FilterPanel from './FilterPanel';
 import List from './List';
 
 
-const TodoList: React.FC<TodoListPropsType> = ({listId, title, currentFilter, tasks, filters, changeTaskStatus, removeTask, addTask, changeFilter, deleteList}) => {
+const TodoList: React.FC<TodoListPropsType> = ({listId, title, currentFilter, tasks, filters, changeTaskStatus, changeTaskTitle, removeTask, addTask, changeFilter, deleteList, changeTodoListTitle}) => {
 
 	// const [items, setItems] = useState<Array<TaskType>>(tasks);
 	// const [currentFilter, changeFilter] = useState<FilterValuesType>('all');
@@ -49,12 +50,18 @@ const TodoList: React.FC<TodoListPropsType> = ({listId, title, currentFilter, ta
 		addTask(title, listId);
 	}
 
+	const onChangeListTitleHandler = (newTitle: string) => {
+		changeTodoListTitle(listId, newTitle);
+	}
+
     return (
         <div className="todolist__wrapper">
-			<h3>{title}</h3>
+			<h3>
+				<EditableTextLine text={title} setNewText={onChangeListTitleHandler}/>
+			</h3>
 			<button onClick={onDeleteClickHandler}>Delete list</button>
 			<AddNewItemForm addItem={addNewTask} />
-			<List listId={listId} tasks={tasks} removeItem={removeTask} changeItemStatus={changeTaskStatus}/>
+			<List listId={listId} tasks={tasks} removeItem={removeTask} changeItemStatus={changeTaskStatus} changeItemTitle={changeTaskTitle} />
 			<FilterPanel listId={listId} filters={filters} changeFilter={changeFilter} currentFilter={currentFilter}/>
 		</div>
     )
@@ -70,8 +77,10 @@ type TodoListPropsType = {
     tasks: Array<TaskType>
 	filters: DefaultFilterTypes
 	changeTaskStatus: (taskId: string, todoListId: string) => void
+	changeTaskTitle: (taskId: string, todoListId: string, newTitle: string) => void
 	removeTask: (taskId: string, todoListId: string) => void
 	addTask: (itemTitle: string, todoListId: string) => void
 	changeFilter: (filter: FilterValuesType, todoListId: string) => void
 	deleteList: (todoListId: string) => void
+	changeTodoListTitle: (todoListId: string, newTitle: string) => void
 }

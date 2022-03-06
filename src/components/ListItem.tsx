@@ -1,12 +1,17 @@
 import React from 'react';
 import { TaskType } from '../types/types';
+import EditableTextLine from './common/EditableTextLine';
 
-const ListItem: React.FC<ListItemPropsType> = ({listId, task, removeItem, changeItemStatus}) => {
+const ListItem: React.FC<ListItemPropsType> = ({listId, task, removeItem, changeItemStatus, changeItemTitle}) => {
 
     const {title, isDone, id} = task;
 
     const onItemStatusChange = () => {
         changeItemStatus(id, listId)
+    }
+
+    const onItemTitleChange = (newTitle: string) => {
+        changeItemTitle(id, listId, newTitle);
     }
 
     const onRemoveHandler = () => {
@@ -19,8 +24,8 @@ const ListItem: React.FC<ListItemPropsType> = ({listId, task, removeItem, change
         <li className={taskCN}>
             <input type="checkbox"
                    checked={isDone}
-                   onChange={onItemStatusChange}/> 
-            <span>{title}</span>
+                   onChange={onItemStatusChange}/>
+            <EditableTextLine text={title} setNewText={onItemTitleChange} />
             <button onClick={onRemoveHandler}>x</button>
         </li>
     )
@@ -34,4 +39,5 @@ type ListItemPropsType =  {
     task: TaskType
     removeItem: (taskId: string, todoListId: string) => void
     changeItemStatus: (taskId: string, todoListId: string) => void
+    changeItemTitle: (taskId: string, todoListId: string, newTitle: string) => void
 }

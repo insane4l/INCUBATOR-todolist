@@ -1,5 +1,5 @@
 import React from 'react';
-import AddNewItemForm from './AddNewItemForm';
+import AddNewItemForm from './common/AddNewItemForm';
 
 const AddTodoListForm: React.FC<AddTodoListFormPropsType> = ({addNewTodoList}) => {
 
