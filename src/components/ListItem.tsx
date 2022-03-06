@@ -13,8 +13,10 @@ const ListItem: React.FC<ListItemPropsType> = ({listId, task, removeItem, change
         removeItem(id, listId); 
     }
 
+    const taskCN = isDone ? "task_completed" : "";
+
     return (
-        <li>
+        <li className={taskCN}>
             <input type="checkbox"
                    checked={isDone}
                    onChange={onItemStatusChange}/> 

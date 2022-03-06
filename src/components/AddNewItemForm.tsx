@@ -1,7 +1,7 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 
 
-const AddNewItemForm: React.FC<AddNewItemFormPropsType> = ({ listId, addItem }) => {
+const AddNewItemForm: React.FC<AddNewItemFormPropsType> = ({ addItem }) => {
 
     const [newItemTitle, setNewItemTitle] = useState<string>('');
     const [validationError, setValidationError] = useState<string | null>(null)
@@ -19,7 +19,7 @@ const AddNewItemForm: React.FC<AddNewItemFormPropsType> = ({ listId, addItem }) 
         }
 
         setValidationError(null);
-        addItem(newItemTitle.trim(), listId);
+        addItem(newItemTitle.trim());
         setNewItemTitle('')
     }
 
@@ -48,6 +48,5 @@ export default AddNewItemForm;
 
 
 type AddNewItemFormPropsType = {
-    listId: string
-    addItem: (itemTitle: string, todoListId: string) => void
+    addItem: (itemTitle: string) => void
 }

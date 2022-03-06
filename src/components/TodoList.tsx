@@ -45,11 +45,15 @@ const TodoList: React.FC<TodoListPropsType> = ({listId, title, currentFilter, ta
 		deleteList(listId);
 	}
 
+	const addNewTask = (title: string) => {
+		addTask(title, listId);
+	}
+
     return (
-        <div>
+        <div className="todolist__wrapper">
 			<h3>{title}</h3>
 			<button onClick={onDeleteClickHandler}>Delete list</button>
-			<AddNewItemForm listId={listId} addItem={addTask} />
+			<AddNewItemForm addItem={addNewTask} />
 			<List listId={listId} tasks={tasks} removeItem={removeTask} changeItemStatus={changeTaskStatus}/>
 			<FilterPanel listId={listId} filters={filters} changeFilter={changeFilter} currentFilter={currentFilter}/>
 		</div>

@@ -1,11 +1,33 @@
 .App {
   padding: 30px;
-  display: flex;
 }
 
-.App > div {
-  margin-right: 50px;
+
+.add_todolist_form_wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  padding: 30px;
+  border: 2px solid rgba(0,0,0, .4);
+  border-radius: 10px;
 }
+.add_todolist_form_wrapper h2 {
+  margin: 0;
+}
+
+.todolists__wrapper {
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px 50px;
+}
+
+.todolist__wrapper {
+}
+
+
+
 .validation__error-input {
   border: 1px solid red;
 }
@@ -16,4 +38,8 @@
 
 .filter_active {
   background-color: orange;
+}
+
+.task_completed {
+  opacity: .6;
 }
