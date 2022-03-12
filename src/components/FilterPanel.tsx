@@ -1,23 +1,25 @@
 import React from 'react';
 import { DefaultFilterTypes, FilterValuesType } from '../App';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 const FilterPanel: React.FC<FilterPanelPropsType> = ({listId, filters, currentFilter, changeFilter}) => {
     return (
-        <div>
+        <ButtonGroup variant="outlined" color="success" aria-label="outlined button group" sx={{ mt: 3 }}>
+
             {filters.map(el => (
-                <button key={el.id} 
+                <Button key={el.id}
+                        variant={el.value === currentFilter ? "contained" : "outlined"} 
                         value={el.value}
-                        onClick={() => changeFilter(el.value, listId)}
-                        className={el.value === currentFilter ? "filter_active" : ""} >
+                        onClick={() => changeFilter(el.value, listId)} >
+
                     {el.title}
-                </button>
+                    
+                </Button>
+                
             ))}
 
-
-            {/* <button>All</button>
-            <button>Active</button>
-            <button>Completed</button> */}
-        </div>
+        </ButtonGroup>
     )
 }
 

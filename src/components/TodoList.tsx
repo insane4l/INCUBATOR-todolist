@@ -5,6 +5,11 @@ import AddNewItemForm from './common/AddNewItemForm';
 import EditableTextLine from './common/EditableTextLine';
 import FilterPanel from './FilterPanel';
 import List from './List';
+import IconButton from '@mui/material/IconButton';
+import BackspaceIcon from '@mui/icons-material/Backspace';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
 
 const TodoList: React.FC<TodoListPropsType> = ({listId, title, currentFilter, tasks, filters, changeTaskStatus, changeTaskTitle, removeTask, addTask, changeFilter, deleteList, changeTodoListTitle}) => {
@@ -55,15 +60,23 @@ const TodoList: React.FC<TodoListPropsType> = ({listId, title, currentFilter, ta
 	}
 
     return (
-        <div className="todolist__wrapper">
-			<h3>
-				<EditableTextLine text={title} setNewText={onChangeListTitleHandler}/>
-			</h3>
-			<button onClick={onDeleteClickHandler}>Delete list</button>
-			<AddNewItemForm addItem={addNewTask} />
-			<List listId={listId} tasks={tasks} removeItem={removeTask} changeItemStatus={changeTaskStatus} changeItemTitle={changeTaskTitle} />
-			<FilterPanel listId={listId} filters={filters} changeFilter={changeFilter} currentFilter={currentFilter}/>
-		</div>
+		<Grid item xs={4}>
+			<Paper elevation={3} sx={{ p: 4 }}>
+				<Typography variant="h4" gutterBottom component="span" mr={1}>
+					<EditableTextLine text={title} setNewText={onChangeListTitleHandler}/>
+				</Typography>
+
+
+				<IconButton onClick={onDeleteClickHandler}>
+					<BackspaceIcon />
+				</IconButton>
+				
+
+				<AddNewItemForm addItem={addNewTask} />
+				<List listId={listId} tasks={tasks} removeItem={removeTask} changeItemStatus={changeTaskStatus} changeItemTitle={changeTaskTitle} />
+				<FilterPanel listId={listId} filters={filters} changeFilter={changeFilter} currentFilter={currentFilter}/>
+			</Paper>
+		</Grid>
     )
 }
 

@@ -1,3 +1,4 @@
+import TextField from '@mui/material/TextField';
 import React, { ChangeEvent, useState } from 'react';
 
 const EditableTextLine: React.FC<EditableTextLinePropsType> = ({text, setNewText}) => {
@@ -20,7 +21,16 @@ const EditableTextLine: React.FC<EditableTextLinePropsType> = ({text, setNewText
     }
 
     return editMode 
-        ? <input type="text" value={inputValue} onChange={onInputChangeHandler} onBlur={onBlurHandler} autoFocus/>
+        ? <TextField
+            error={false} // todo: error
+            label={"aaa"} // error || "Edit mode"
+            variant="standard"
+            value={inputValue}
+            onChange={onInputChangeHandler}
+            onBlur={onBlurHandler}
+            autoFocus // todo: onKeyPress - set new value onEnter
+        />
+
         : <span onDoubleClick={onDoubleClickHandler}>{text}</span>
     
 }

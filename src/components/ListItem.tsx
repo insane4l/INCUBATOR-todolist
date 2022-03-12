@@ -1,6 +1,9 @@
 import React from 'react';
 import { TaskType } from '../types/types';
 import EditableTextLine from './common/EditableTextLine';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import IconButton from '@mui/material/IconButton';
+import Checkbox from '@mui/material/Checkbox';
 
 const ListItem: React.FC<ListItemPropsType> = ({listId, task, removeItem, changeItemStatus, changeItemTitle}) => {
 
@@ -22,11 +25,17 @@ const ListItem: React.FC<ListItemPropsType> = ({listId, task, removeItem, change
 
     return (
         <li className={taskCN}>
-            <input type="checkbox"
-                   checked={isDone}
-                   onChange={onItemStatusChange}/>
+            <Checkbox 
+                color="success" 
+                checked={isDone}
+                onChange={onItemStatusChange} />
+
             <EditableTextLine text={title} setNewText={onItemTitleChange} />
-            <button onClick={onRemoveHandler}>x</button>
+
+            <IconButton onClick={onRemoveHandler}>
+                <DeleteForeverIcon />
+            </IconButton>
+
         </li>
     )
 }

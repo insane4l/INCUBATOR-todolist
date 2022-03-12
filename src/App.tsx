@@ -4,6 +4,9 @@ import './App.css';
 import AddTodoListForm from './components/AddTodoListForm';
 import TodoList from './components/TodoList';
 import { TaskType } from './types/types';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+
 
 
 let defaultFilters = [
@@ -159,15 +162,16 @@ function App() {
 	
 
     return (
-        <div className="App">
+        <Container fixed>
 
             <AddTodoListForm addNewTodoList={addNewTodoList} />
             
-            <div className="todolists__wrapper">
+            <Grid container spacing={6} sx={{ pt: 4, pb: 4 }}>
                 {mappedTodoLists}
-            </div>
+            </Grid>
+                
             
-        </div>
+        </Container>
     );
 }
 

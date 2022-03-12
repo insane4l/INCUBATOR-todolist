@@ -1,15 +1,20 @@
 import React from 'react';
 import AddNewItemForm from './common/AddNewItemForm';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
 
 const AddTodoListForm: React.FC<AddTodoListFormPropsType> = ({addNewTodoList}) => {
 
 
 
     return (
-        <div className="add_todolist_form_wrapper">
-            <h2>Add New To-Do List</h2>
+        <Paper elevation={1} sx={{ maxWidth: '400px', p: 2 }}>
+            <Typography variant="h6" gutterBottom component="h2">
+                New To-Do List
+            </Typography>
+
             <AddNewItemForm addItem={addNewTodoList}/>
-        </div>
+        </Paper>
     )
 }
 

@@ -4,7 +4,7 @@ import ListItem from './ListItem';
 
 const List: React.FC<ListPropsType> = ({listId, tasks, removeItem, changeItemStatus, changeItemTitle}) => {
     return (
-        <ul>
+        <ul className="items__list">
             {tasks.map(el => <ListItem key={el.id} listId={listId} task={el} removeItem={removeItem} changeItemStatus={changeItemStatus} changeItemTitle={changeItemTitle} /> )}
         </ul>
     )
