@@ -6,6 +6,7 @@ import TodoList from './components/TodoList';
 import { TaskType } from './types/types';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import AppHeader from './components/AppHeader';
 
 
 
@@ -162,16 +163,18 @@ function App() {
 	
 
     return (
-        <Container fixed>
 
-            <AddTodoListForm addNewTodoList={addNewTodoList} />
-            
-            <Grid container spacing={6} sx={{ pt: 4, pb: 4 }}>
-                {mappedTodoLists}
-            </Grid>
+        <>
+            <AppHeader addNewTodoList={addNewTodoList} />
+
+            <Container fixed>
                 
-            
-        </Container>
+                <Grid container spacing={6} sx={{ pt: 4, pb: 4 }}>
+                    {mappedTodoLists}
+                </Grid>
+                
+            </Container>
+        </>
     );
 }
 
