@@ -31,7 +31,7 @@ const EditableTextLine: React.FC<EditableTextLinePropsType> = ({text, setNewText
             autoFocus // todo: onKeyPress - set new value onEnter
         />
 
-        : <span onDoubleClick={onDoubleClickHandler}>{text}</span>
+        : <span style={{wordBreak: 'break-word'}} onDoubleClick={onDoubleClickHandler}>{text}</span>
     
 }
 

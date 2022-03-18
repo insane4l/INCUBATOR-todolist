@@ -5,11 +5,18 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import AddTodoListForm from './AddTodoListForm';
+import Box from '@mui/material/Box';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useTheme } from '@mui/material';
+import { ColorModeContext } from '../contextAPI/ColorModeContext';
 
 
 const AppHeader: React.FC<AppHeaderPropsType> = ({ addNewTodoList }) => {
 
-    const [formDisplay, setFormDisplay] = useState(false)
+    const [formDisplay, setFormDisplay] = useState(false);
+    const theme = useTheme();
+    const colorMode = React.useContext(ColorModeContext);
 
     return (
         <>
@@ -24,7 +31,12 @@ const AppHeader: React.FC<AppHeaderPropsType> = ({ addNewTodoList }) => {
                         <AddCircleOutlineIcon fontSize='large' />
                     </IconButton>
 
-                    <Button color="inherit" sx={{ m: "0 0 0 auto" }}>Login</Button>
+                    <Box sx={{ m: "0 0 0 auto" }}>
+                    <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+                        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                    </IconButton>
+                        <Button color="inherit">Login</Button>
+                    </Box>
                 </Toolbar>
             </AppBar>
 
