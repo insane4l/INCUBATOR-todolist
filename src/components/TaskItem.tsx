@@ -4,8 +4,12 @@ import EditableTextLine from './common/EditableTextLine';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
+import Box from '@mui/material/Box';
+import ListItem from '@mui/material/ListItem';
 
-const ListItem: React.FC<ListItemPropsType> = ({listId, task, removeItem, changeItemStatus, changeItemTitle}) => {
+
+
+const TaskItem: React.FC<ListItemPropsType> = ({listId, task, removeItem, changeItemStatus, changeItemTitle}) => {
 
     const {title, isDone, id} = task;
 
@@ -21,26 +25,31 @@ const ListItem: React.FC<ListItemPropsType> = ({listId, task, removeItem, change
         removeItem(id, listId); 
     }
 
-    const taskCN = isDone ? "task_completed" : "";
+    const completedTaskOpacity = isDone ? '.4' : '1'; 
 
     return (
-        <li className={taskCN}>
-            <Checkbox 
-                color="success" 
-                checked={isDone}
-                onChange={onItemStatusChange} />
 
-            <EditableTextLine text={title} setNewText={onItemTitleChange} />
+        <ListItem disablePadding sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
+            <Box sx={{display: 'flex', alignItems: 'flex-start', width: '100%', opacity: completedTaskOpacity}}>
+                <Checkbox 
+                    color="success" 
+                    checked={isDone}
+                    onChange={onItemStatusChange} />
+
+                <Box sx={{p: '9px 0'}}>
+                    <EditableTextLine text={title} setNewText={onItemTitleChange} />
+                </Box>
+            </Box>
 
             <IconButton onClick={onRemoveHandler}>
                 <DeleteForeverIcon />
             </IconButton>
+        </ListItem>
 
-        </li>
     )
 }
 
-export default ListItem;
+export default TaskItem;
 
 
 type ListItemPropsType =  {

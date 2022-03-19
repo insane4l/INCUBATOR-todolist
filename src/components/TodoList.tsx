@@ -1,50 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DefaultFilterTypes, FilterValuesType } from '../App';
 import { TaskType } from '../types/types';
 import AddNewItemForm from './common/AddNewItemForm';
 import EditableTextLine from './common/EditableTextLine';
 import FilterPanel from './FilterPanel';
-import List from './List';
+import TaskList from './TaskList';
 import IconButton from '@mui/material/IconButton';
-import BackspaceIcon from '@mui/icons-material/Backspace';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
 
 
 const TodoList: React.FC<TodoListPropsType> = ({listId, title, currentFilter, tasks, filters, changeTaskStatus, changeTaskTitle, removeTask, addTask, changeFilter, deleteList, changeTodoListTitle}) => {
 
-	// const [items, setItems] = useState<Array<TaskType>>(tasks);
-	// const [currentFilter, changeFilter] = useState<FilterValuesType>('all');
+	let [collapsedMode, setCollapsedMode] = useState(false);
 
-	// const changeItemStatus = (id: string) => {
-	// 	let newItems = [...items];
-	// 	let selectedItem = newItems.find(el => el.id === id);
-	// 	if (selectedItem) {
-	// 		selectedItem.isDone = !selectedItem.isDone;
-	// 		setItems(newItems);
-	// 	}
+	const collapseList = () => {
+		setCollapsedMode(currentMode => currentMode === true ? false : true)
+	}
 
-	// }
-
-    // const removeItem = (id: string): void => {
-	// 	let changedList = items.filter(el => el.id !== id);
-	// 	setItems(changedList);
-    // }
-
-	// const addItem = (itemTitle: string) => {
-	// 	const newItem = {title: itemTitle, isDone: false, id: v1()};
-	// 	setItems([newItem, ...items]);
-	// }
-
-	// let allItems = items;
-
-	// if (currentFilter === 'active') {
-	// 	allItems = items.filter(el => el.isDone === false);
-	// }
-	// if (currentFilter === 'completed') {
-	// 	allItems = items.filter(el => el.isDone === true);
-	// }
 	console.log(`todolist id: [${listId}] rerendered`);
 	
 	const onDeleteClickHandler = () => {
@@ -61,20 +41,33 @@ const TodoList: React.FC<TodoListPropsType> = ({listId, title, currentFilter, ta
 
     return (
 		<Grid item xs={4}>
-			<Paper elevation={3} sx={{ p: 4 }}>
-				<Typography variant="h4" gutterBottom component="span" mr={1}>
-					<EditableTextLine text={title} setNewText={onChangeListTitleHandler}/>
-				</Typography>
+			<Paper elevation={6} sx={{ position: 'relative'}}>
+				<Box sx={{display: 'flex', alignItems: 'center', pt: 1, pr: 4, pb: 1, pl: 4, mb: 4, borderBottom: '1px solid rgba(0,0,0, .2)'}}>
+					<Typography variant="h5" gutterBottom component="span" sx={{mb: 0}}>
+						<EditableTextLine text={title} setNewText={onChangeListTitleHandler}/>
+					</Typography>
 
-
-				<IconButton onClick={onDeleteClickHandler}>
-					<BackspaceIcon />
-				</IconButton>
+					<IconButton onClick={collapseList} >
+						{collapsedMode ?  <ExpandMoreIcon fontSize="large"/> : <ExpandLessIcon fontSize="large"/>}
+					</IconButton>
+				</Box>
 				
 
-				<AddNewItemForm addItem={addNewTask} />
-				<List listId={listId} tasks={tasks} removeItem={removeTask} changeItemStatus={changeTaskStatus} changeItemTitle={changeTaskTitle} />
-				<FilterPanel listId={listId} filters={filters} changeFilter={changeFilter} currentFilter={currentFilter}/>
+
+				<IconButton onClick={onDeleteClickHandler} color="error" sx={{position: 'absolute', top: '0.1em', right: '0.1em'}}>
+					<PlaylistRemoveIcon fontSize="large" />
+				</IconButton>
+				
+				
+				<Collapse in={!collapsedMode}>
+					<Box sx={{pr: 4, pb: 4, pl: 4}}>
+						<AddNewItemForm addItem={addNewTask} />
+						<TaskList listId={listId} tasks={tasks} removeItem={removeTask} changeItemStatus={changeTaskStatus} changeItemTitle={changeTaskTitle} />
+						<FilterPanel listId={listId} filters={filters} changeFilter={changeFilter} currentFilter={currentFilter}/>
+					</Box>
+				</Collapse>
+				
+				
 			</Paper>
 		</Grid>
     )

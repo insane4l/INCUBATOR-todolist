@@ -44,10 +44,10 @@ const AddNewItemForm: React.FC<AddNewItemFormPropsType> = ({ addItem }) => {
                 onChange={onInputChange}
                 onKeyPress={onKeyPressHandler}
                 helperText={validationError}
-                sx={{width: '100%', mt: '33px'}}
+                sx={{width: '100%'}}
             />
 
-            <Button variant="contained" onClick={onSubmitHandler} sx={{width: '100%', mt: '6px', mb: '22px'}}>
+            <Button variant="contained" onClick={onSubmitHandler} sx={{width: '100%', mt: '6px', mb: 3}}>
                 <AddIcon />
             </Button>
             {/* <IconButton  aria-label="delete" sx={{display: 'block', width: '100%'}}>

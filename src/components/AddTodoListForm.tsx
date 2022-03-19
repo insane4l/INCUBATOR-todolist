@@ -8,7 +8,7 @@ const AddTodoListForm: React.FC<AddTodoListFormPropsType> = ({addNewTodoList}) =
 
 
     return (
-        <Paper elevation={1} sx={{ position: 'absolute', left: '30px', zIndex: 22, maxWidth: '400px', p: 2 }}>
+        <Paper elevation={1} sx={{maxWidth: '400px', p: 2 }}>
             <Typography variant="h6" gutterBottom component="h2">
                 New To-Do List
             </Typography>

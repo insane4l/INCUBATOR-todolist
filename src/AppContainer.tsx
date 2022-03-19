@@ -4,19 +4,21 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {PaletteMode} from '@mui/material'
 import { ColorModeContext } from './contextAPI/ColorModeContext';
 import CssBaseline from '@mui/material/CssBaseline';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const AppContainer = () => {
     
-    const [mode, setMode] = React.useState<PaletteMode>('light');
+    const [mode, setMode] = React.useState<PaletteMode | null>(null);
 
     useEffect(() => {
         const savedMode = localStorage.getItem('TL-app-color-mode') as PaletteMode;
-        if (savedMode) setMode(savedMode)
-    }, [])
+        if (savedMode) setMode(savedMode);
+        if (!savedMode) setMode('light')
+    }, []);
 
     useEffect(() => {
-        localStorage.setItem('TL-app-color-mode', mode)
-    }, [mode])
+        if (mode ) localStorage.setItem('TL-app-color-mode', mode);
+    }, [mode]);
 
     const colorMode = React.useMemo(
         () => ({
@@ -31,19 +33,21 @@ const AppContainer = () => {
         () =>
             createTheme({
                 palette: {
-                    mode,
+                    mode: mode || 'light',
                 },
             }),
         [mode],
     );
 
     return (
-        <ColorModeContext.Provider value={colorMode}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <App />
-            </ThemeProvider>
-        </ColorModeContext.Provider>
+        !mode 
+            ? <CircularProgress sx={{display: 'block', margin: '100px auto'}}/> 
+            : <ColorModeContext.Provider value={colorMode}>
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline />
+                        <App />
+                    </ThemeProvider>
+               </ColorModeContext.Provider>
     );
 }
 
