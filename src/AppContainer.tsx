@@ -5,6 +5,8 @@ import {PaletteMode} from '@mui/material'
 import { ColorModeContext } from './contextAPI/ColorModeContext';
 import CssBaseline from '@mui/material/CssBaseline';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Provider } from 'react-redux';
+import { store } from './bll/store';
 
 const AppContainer = () => {
     
@@ -38,14 +40,16 @@ const AppContainer = () => {
             }),
         [mode],
     );
-
+            
     return (
         !mode 
             ? <CircularProgress sx={{display: 'block', margin: '100px auto'}}/> 
             : <ColorModeContext.Provider value={colorMode}>
                     <ThemeProvider theme={theme}>
                         <CssBaseline />
-                        <App />
+                        <Provider store={store}>
+                            <App />
+                        </Provider>
                     </ThemeProvider>
                </ColorModeContext.Provider>
     );

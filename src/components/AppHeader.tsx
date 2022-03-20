@@ -113,7 +113,7 @@ const LeftMenuButton: React.FC<LeftMenuButtonPropsType> = ({ descr, onClick, chi
             <IconButton
                 size="large"
                 color="inherit"
-                aria-label="add new todo list"
+                aria-label={descr}
                 onClick={onClick}
             >
                 {children}
