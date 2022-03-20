@@ -5,6 +5,7 @@ const EditableTextLine: React.FC<EditableTextLinePropsType> = ({text, setNewText
 
     const [inputValue, setInputValue] = useState('');
     const [editMode, setEditMode] = useState(false);
+    const [validationError, setValidationError] = useState(false);
 
     const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.currentTarget.value);
@@ -15,20 +16,41 @@ const EditableTextLine: React.FC<EditableTextLinePropsType> = ({text, setNewText
         setInputValue(text);
     }
 
-    const onBlurHandler = () => {
+    const onTextSubmit = () => {
+        setValidationError(false)
+
+        let value = inputValue.trim();
+
+        if (value === '') {
+            setValidationError(true);
+            setInputValue('');
+            return;
+        }
+
         setEditMode(false);
-        setNewText(inputValue);
+        setNewText(value);
+    }
+
+    const onBlurHandler = () => {
+        onTextSubmit();
+    }
+    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.charCode === 13) {
+            onTextSubmit();
+        }
     }
 
     return editMode 
         ? <TextField
-            error={false} // todo: error
-            label={"aaa"} // error || "Edit mode"
+            error={validationError}
+            helperText={'Field is required'}
+            label={'Set title'}
             variant="standard"
             value={inputValue}
             onChange={onInputChangeHandler}
             onBlur={onBlurHandler}
-            autoFocus // todo: onKeyPress - set new value onEnter
+            onKeyPress={onKeyPressHandler}
+            autoFocus
         />
 
         : <span style={{wordBreak: 'break-word'}} onDoubleClick={onDoubleClickHandler}>{text}</span>

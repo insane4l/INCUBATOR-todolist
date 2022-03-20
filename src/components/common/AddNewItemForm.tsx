@@ -2,14 +2,13 @@ import AddIcon from '@mui/icons-material/Add';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { DoorBack } from '@mui/icons-material';
 import Button from '@mui/material/Button';
 
 
 const AddNewItemForm: React.FC<AddNewItemFormPropsType> = ({ addItem }) => {
 
     const [newItemTitle, setNewItemTitle] = useState<string>('');
-    const [validationError, setValidationError] = useState<string | null>(null)
+    const [validationError, setValidationError] = useState<string | null>(null);
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewItemTitle(e.currentTarget.value)

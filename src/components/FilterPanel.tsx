@@ -3,8 +3,17 @@ import { DefaultFilterTypes, FilterValuesType } from '../App';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { Box } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { changeTodolistFilterAC } from '../bll/todoListsReducer';
 
-const FilterPanel: React.FC<FilterPanelPropsType> = ({listId, filters, currentFilter, changeFilter}) => {
+const FilterPanel: React.FC<FilterPanelPropsType> = ({todoListId, filters, currentFilter}) => {
+    
+    const dispatch = useDispatch();
+
+    const changeTodoListFilter = (todoListId: string, filter: FilterValuesType) => {
+        dispatch(changeTodolistFilterAC(todoListId, filter) )
+    }
+
     return (
         <Box sx={{display: 'flex', justifyContent: 'center', mt: 3}}>
             <ButtonGroup variant="outlined" color="success" aria-label="outlined button group">
@@ -13,7 +22,7 @@ const FilterPanel: React.FC<FilterPanelPropsType> = ({listId, filters, currentFi
                     <Button key={el.id}
                             variant={el.value === currentFilter ? "contained" : "outlined"} 
                             value={el.value}
-                            onClick={() => changeFilter(el.value, listId)} >
+                            onClick={() => changeTodoListFilter(todoListId, el.value)} >
 
                         {el.title}
                         
@@ -29,9 +38,8 @@ const FilterPanel: React.FC<FilterPanelPropsType> = ({listId, filters, currentFi
 export default FilterPanel;
 
 type FilterPanelPropsType = {
-    listId: string
+    todoListId: string
     filters: DefaultFilterTypes
     currentFilter: FilterValuesType
-    changeFilter: (filter: FilterValuesType, todoListId: string) => void
 }
 

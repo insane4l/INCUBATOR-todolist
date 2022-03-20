@@ -18,23 +18,24 @@ import SpeedDialMenu from './SpeedDialMenu';
 import Tooltip from '@mui/material/Tooltip';
 import RemoveFromQueueIcon from '@mui/icons-material/RemoveFromQueue';
 import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
+import { useDispatch } from 'react-redux';
+import { collapseAllTodoListsAC, uncollapseAllTodoListsAC } from '../bll/todoListsReducer';
 
 
 
-const AppHeader: React.FC<AppHeaderPropsType> = ({ addNewTodoList }) => {
+const AppHeader: React.FC = () => {
 
     const theme = useTheme();
     const colorMode = React.useContext(ColorModeContext);
 
     const [formDisplay, setFormDisplay] = useState(false);
-    let [collapseStatus, setCollapseStatus] = useState(true);
 
 
     const toggleFormDisplay = () => {
         setFormDisplay(prevStatus => !prevStatus)
     }
-    const toggleCollapseStatus = () => {
-        setCollapseStatus(prevStatus => !prevStatus)
+    const hideNewTodoListForm = () => {
+        setFormDisplay(false)
     }
 
     const addListFormStyle = {
@@ -51,9 +52,7 @@ const AppHeader: React.FC<AppHeaderPropsType> = ({ addNewTodoList }) => {
             <AppBar position="static">
                 <Toolbar>
                     <LeftMenu 
-                        toggleFormDisplay={toggleFormDisplay}
-                        collapseStatus={collapseStatus}
-                        toggleCollapseStatus={toggleCollapseStatus}/>
+                        toggleFormDisplay={toggleFormDisplay}/>
                     {/* <SpeedDialMenu /> */}
 
                     <Box sx={{ m: "0 0 0 auto" }}>
@@ -67,7 +66,7 @@ const AppHeader: React.FC<AppHeaderPropsType> = ({ addNewTodoList }) => {
 
 
             <Box sx={addListFormStyle}>
-                <AddTodoListForm addNewTodoList={addNewTodoList} />
+                <AddTodoListForm hideNewTodoListForm={hideNewTodoListForm}/>
             </Box>
         </>
     )
@@ -77,22 +76,33 @@ const AppHeader: React.FC<AppHeaderPropsType> = ({ addNewTodoList }) => {
 
 type LeftMenuPropsType= {
     toggleFormDisplay: () => void
-    toggleCollapseStatus: () => void
-    collapseStatus: boolean
 }
 
-const LeftMenu: React.FC<LeftMenuPropsType> = ({toggleFormDisplay, toggleCollapseStatus, collapseStatus}) => {
+const LeftMenu: React.FC<LeftMenuPropsType> = ({toggleFormDisplay}) => {
+
+    const dispatch = useDispatch()
+    let [collapseStatus, setCollapseStatus] = useState(true);
+
+    const collapseAllTodoLists = () => {
+        dispatch(collapseAllTodoListsAC() )
+        setCollapseStatus(true);
+    }
+    const uncollapseAllTodoLists = () => {
+        dispatch(uncollapseAllTodoListsAC() )
+        setCollapseStatus(false);
+    }
+
     return (
         <>
             <LeftMenuButton descr='Add new list' onClick={toggleFormDisplay}>
                 <AddCircleOutlineIcon fontSize='medium' />
             </LeftMenuButton>
             {collapseStatus
-                    ?   <LeftMenuButton descr='Uncollapse all' onClick={toggleCollapseStatus}>
+                    ?   <LeftMenuButton descr='Uncollapse all' onClick={uncollapseAllTodoLists}>
                             <InstallDesktopIcon fontSize='medium' />
                         </LeftMenuButton>
 
-                    :   <LeftMenuButton descr='Collapse all' onClick={toggleCollapseStatus}>
+                    :   <LeftMenuButton descr='Collapse all' onClick={collapseAllTodoLists}>
                             <RemoveFromQueueIcon fontSize='medium' />
                         </LeftMenuButton>
             }
@@ -126,8 +136,3 @@ const LeftMenuButton: React.FC<LeftMenuButtonPropsType> = ({ descr, onClick, chi
 
 
 export default AppHeader;
-
-
-type AppHeaderPropsType = {
-    addNewTodoList: (title: string) => void
-}

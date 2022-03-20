@@ -7,4 +7,6 @@ const reducers = combineReducers({
     taskLists: taskListsReducer
 });
 
+export type AppStateType = ReturnType<typeof reducers>
+
 export const store = createStore(reducers);

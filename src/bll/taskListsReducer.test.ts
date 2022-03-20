@@ -47,10 +47,11 @@ test('only selected task title should be changed', () => {
 
 
 
-test('task should be added (task list length incremented)', () => {
+test('task should be added correctly', () => {
     let newState = taskListsReducer(initialState, addNewTaskAC('1', '6', 'kuku') );
 
     expect(newState[1].length).toBe(6);
+    expect(newState[1][0].title).toBe('kuku')
 })
 test('task should be added only to selected list by id', () => {
     let newState = taskListsReducer(initialState, addNewTaskAC('1', '6', 'kuku') );

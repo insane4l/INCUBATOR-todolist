@@ -6,45 +6,51 @@ import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
+import { useDispatch } from 'react-redux';
+import { changeTaskTitleAC, removeTaskAC, toggleTaskStatusAC } from '../bll/taskListsReducer';
+import Divider from '@mui/material/Divider';
 
 
 
-const TaskItem: React.FC<ListItemPropsType> = ({listId, task, removeItem, changeItemStatus, changeItemTitle}) => {
+const TaskItem: React.FC<ListItemPropsType> = ({todoListId, task, withDivider}) => {
 
     const {title, isDone, id} = task;
+    const dispatch = useDispatch();
 
-    const onItemStatusChange = () => {
-        changeItemStatus(id, listId)
+    const changeTaskStatus = () => {
+        dispatch( toggleTaskStatusAC(todoListId, id) );
     }
 
-    const onItemTitleChange = (newTitle: string) => {
-        changeItemTitle(id, listId, newTitle);
+    const changeTaskTitle = (newTitle: string) => {
+        dispatch( changeTaskTitleAC(todoListId, id, newTitle) );
     }
 
-    const onRemoveHandler = () => {
-        removeItem(id, listId); 
+    const removeTask = () => {
+        dispatch( removeTaskAC(todoListId, id) );
     }
 
     const completedTaskOpacity = isDone ? '.4' : '1'; 
 
     return (
+        <>
+            <ListItem disablePadding sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
+                <Box sx={{display: 'flex', alignItems: 'flex-start', width: '100%', opacity: completedTaskOpacity}}>
+                    <Checkbox 
+                        color="success" 
+                        checked={isDone}
+                        onChange={changeTaskStatus} />
 
-        <ListItem disablePadding sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
-            <Box sx={{display: 'flex', alignItems: 'flex-start', width: '100%', opacity: completedTaskOpacity}}>
-                <Checkbox 
-                    color="success" 
-                    checked={isDone}
-                    onChange={onItemStatusChange} />
-
-                <Box sx={{p: '9px 0'}}>
-                    <EditableTextLine text={title} setNewText={onItemTitleChange} />
+                    <Box sx={{p: '9px 0'}}>
+                        <EditableTextLine text={title} setNewText={changeTaskTitle} />
+                    </Box>
                 </Box>
-            </Box>
 
-            <IconButton onClick={onRemoveHandler}>
-                <DeleteForeverIcon />
-            </IconButton>
-        </ListItem>
+                <IconButton onClick={removeTask}>
+                    <DeleteForeverIcon />
+                </IconButton>
+            </ListItem>
+            {withDivider && <Divider />}
+        </>
 
     )
 }
@@ -53,9 +59,7 @@ export default TaskItem;
 
 
 type ListItemPropsType =  {
-    listId: string
+    todoListId: string
     task: TaskType
-    removeItem: (taskId: string, todoListId: string) => void
-    changeItemStatus: (taskId: string, todoListId: string) => void
-    changeItemTitle: (taskId: string, todoListId: string, newTitle: string) => void
+    withDivider: boolean
 }

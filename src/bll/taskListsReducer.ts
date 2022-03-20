@@ -56,8 +56,8 @@ const taskListsReducer = (state: taskListsStateType = initialState, action: Task
             return {
                 ...state,
                 [action.payload.todoListId]: [
-                    ...state[action.payload.todoListId], 
-                    {title: action.payload.taskTitle, isDone: false, id: action.payload.newTaskId}
+                    {title: action.payload.taskTitle, isDone: false, id: action.payload.newTaskId},
+                    ...state[action.payload.todoListId]
                 ]
             }
         case 'tl/TASK-LISTS/REMOVE-TASK': 

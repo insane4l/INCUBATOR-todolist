@@ -15,56 +15,66 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
+import { useDispatch } from 'react-redux';
+import { changeTodolistTitleAC, deleteTodolistAC, toggleTodolistCollapseAC } from '../bll/todoListsReducer';
+import { addNewTaskAC, removeAllListTasksAC } from '../bll/taskListsReducer';
+import { v1 } from 'uuid';
 
 
-const TodoList: React.FC<TodoListPropsType> = ({listId, title, currentFilter, tasks, filters, changeTaskStatus, changeTaskTitle, removeTask, addTask, changeFilter, deleteList, changeTodoListTitle}) => {
+const TodoList: React.FC<TodoListPropsType> = ({todoListId, title, currentFilter, tasks, filters, isCollapsed}) => {
 
-	let [collapsedMode, setCollapsedMode] = useState(false);
+	console.log(`todolist id: [${todoListId}] rerendered`);
 
-	const collapseList = () => {
-		setCollapsedMode(currentMode => currentMode === true ? false : true)
-	}
+	const dispatch = useDispatch();
 
-	console.log(`todolist id: [${listId}] rerendered`);
-	
-	const onDeleteClickHandler = () => {
-		deleteList(listId);
+	const deleteTodoList = () => {
+		dispatch( deleteTodolistAC(todoListId) )
+		dispatch( removeAllListTasksAC(todoListId) )
 	}
 
 	const addNewTask = (title: string) => {
-		addTask(title, listId);
+		let newTaskId = v1();
+		dispatch(addNewTaskAC(todoListId, newTaskId, title));
 	}
 
-	const onChangeListTitleHandler = (newTitle: string) => {
-		changeTodoListTitle(listId, newTitle);
+	const changeTodoListTitle = (newTitle: string) => {
+		dispatch( changeTodolistTitleAC(todoListId, newTitle) )
 	}
 
+	const collapseList = () => {
+		dispatch( toggleTodolistCollapseAC(todoListId) );
+	}
+
+	
+	
     return (
 		<Grid item xs={4}>
 			<Paper elevation={6} sx={{ position: 'relative'}}>
 				<Box sx={{display: 'flex', alignItems: 'center', pt: 1, pr: 4, pb: 1, pl: 4, mb: 4, borderBottom: '1px solid rgba(0,0,0, .2)'}}>
 					<Typography variant="h5" gutterBottom component="span" sx={{mb: 0}}>
-						<EditableTextLine text={title} setNewText={onChangeListTitleHandler}/>
+						<EditableTextLine text={title} setNewText={changeTodoListTitle}/>
 					</Typography>
 
 					<IconButton onClick={collapseList} >
-						{collapsedMode ?  <ExpandMoreIcon fontSize="large"/> : <ExpandLessIcon fontSize="large"/>}
+						{isCollapsed ?  <ExpandMoreIcon fontSize="large"/> : <ExpandLessIcon fontSize="large"/>}
 					</IconButton>
 				</Box>
 				
 
 
-				<IconButton onClick={onDeleteClickHandler} color="error" sx={{position: 'absolute', top: '0.1em', right: '0.1em'}}>
+				<IconButton onClick={deleteTodoList} color="error" sx={{position: 'absolute', top: '0.1em', right: '0.1em'}}>
 					<PlaylistRemoveIcon fontSize="large" />
 				</IconButton>
 				
 				
-				<Collapse in={!collapsedMode}>
+				<Collapse in={!isCollapsed}>
+
 					<Box sx={{pr: 4, pb: 4, pl: 4}}>
 						<AddNewItemForm addItem={addNewTask} />
-						<TaskList listId={listId} tasks={tasks} removeItem={removeTask} changeItemStatus={changeTaskStatus} changeItemTitle={changeTaskTitle} />
-						<FilterPanel listId={listId} filters={filters} changeFilter={changeFilter} currentFilter={currentFilter}/>
+						<TaskList todoListId={todoListId} tasks={tasks} />
+						<FilterPanel todoListId={todoListId} filters={filters} currentFilter={currentFilter}/>
 					</Box>
+
 				</Collapse>
 				
 				
@@ -77,16 +87,10 @@ export default React.memo(TodoList);
 
 
 type TodoListPropsType = {
-	listId: string
+	todoListId: string
     title: string
 	currentFilter: FilterValuesType
     tasks: Array<TaskType>
 	filters: DefaultFilterTypes
-	changeTaskStatus: (taskId: string, todoListId: string) => void
-	changeTaskTitle: (taskId: string, todoListId: string, newTitle: string) => void
-	removeTask: (taskId: string, todoListId: string) => void
-	addTask: (itemTitle: string, todoListId: string) => void
-	changeFilter: (filter: FilterValuesType, todoListId: string) => void
-	deleteList: (todoListId: string) => void
-	changeTodoListTitle: (todoListId: string, newTitle: string) => void
+	isCollapsed: boolean
 }
