@@ -53,7 +53,7 @@ const EditableTextLine: React.FC<EditableTextLinePropsType> = ({text, setNewText
             autoFocus
         />
 
-        : <span style={{wordBreak: 'break-word'}} onDoubleClick={onDoubleClickHandler}>{text}</span>
+        : <span style={{display: 'inline-block', width: '100%', wordBreak: 'break-word'}} onDoubleClick={onDoubleClickHandler}>{text}</span>
     
 }
 

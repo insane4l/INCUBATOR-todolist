@@ -1,9 +1,20 @@
 import React from 'react';
-import { TaskType } from '../types/types';
 import TaskItem from './TaskItem';
 import List from '@mui/material/List';
+import { useSelector } from 'react-redux';
+import { AppStateType } from '../bll/store';
+import { FilterValuesType } from './FilterPanel';
 
-const TaskList: React.FC<TaskListPropsType> = ({todoListId, tasks}) => {
+const TaskList: React.FC<TaskListPropsType> = ({todoListId, todoListCurrentFilter}) => {
+
+    let tasks = useSelector((state: AppStateType) => state.taskLists[todoListId])
+
+    if (todoListCurrentFilter === 'active') {
+        tasks = tasks.filter(el => el.isDone === false);
+    }
+    if (todoListCurrentFilter === 'completed') {
+        tasks = tasks.filter(el => el.isDone === true);
+    }
 
     return (
         <List>
@@ -23,5 +34,5 @@ export default TaskList;
 
 type TaskListPropsType = {
     todoListId: string
-    tasks: Array<TaskType>
+    todoListCurrentFilter: FilterValuesType
 }

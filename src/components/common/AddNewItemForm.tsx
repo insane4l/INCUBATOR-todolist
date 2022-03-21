@@ -1,6 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import Button from '@mui/material/Button';
 
@@ -46,7 +45,7 @@ const AddNewItemForm: React.FC<AddNewItemFormPropsType> = ({ addItem }) => {
                 sx={{width: '100%'}}
             />
 
-            <Button variant="contained" onClick={onSubmitHandler} sx={{width: '100%', mt: '6px', mb: 3}}>
+            <Button variant="contained" color="primary" onClick={onSubmitHandler} sx={{width: '100%', mt: '6px', mb: 3}}>
                 <AddIcon />
             </Button>
             {/* <IconButton  aria-label="delete" sx={{display: 'block', width: '100%'}}>

@@ -1,5 +1,6 @@
 import {v1} from 'uuid';
-import { FilterValuesType } from '../App';
+import { FilterValuesType } from '../components/FilterPanel';
+
 
 export const todoListsId = [
     v1(), v1(), v1(),
@@ -12,7 +13,7 @@ let initialState = [
     {id: todoListsId[2], title: "Some Goals", currentFilter: 'all', isCollapsed: true} as TodoListType,
 ]
 
-type TodoListType = { id: string, title: string, currentFilter: FilterValuesType, isCollapsed: boolean }
+export type TodoListType = { id: string, title: string, currentFilter: FilterValuesType, isCollapsed: boolean }
 export type TodoListsStateType = typeof initialState;
 
 const todoListsReducer = (state: TodoListsStateType = initialState, action: TodoListsActionsType): TodoListsStateType => {

@@ -21,7 +21,7 @@ const AddTodoListForm: React.FC<{hideNewTodoListForm: ()=>void}> = ({hideNewTodo
     }
 
     return (
-        <Paper elevation={1} sx={{maxWidth: '400px', p: 2 }}>
+        <Paper elevation={10} sx={{maxWidth: '400px', p: 2 }}>
             <Typography variant="h6" gutterBottom component="h2">
                 New To-Do List
             </Typography>

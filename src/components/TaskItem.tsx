@@ -40,7 +40,8 @@ const TaskItem: React.FC<ListItemPropsType> = ({todoListId, task, withDivider}) 
                         checked={isDone}
                         onChange={changeTaskStatus} />
 
-                    <Box sx={{p: '9px 0'}}>
+                    {/* todo: mb fill text box with bg color */}
+                    <Box sx={{width: '100%', p: '9px 0'}}> 
                         <EditableTextLine text={title} setNewText={changeTaskTitle} />
                     </Box>
                 </Box>

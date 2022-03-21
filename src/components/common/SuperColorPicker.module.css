@@ -1,0 +1,47 @@
+/* crossbrowser normalize for color input*/
+.colorpicker__input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+.colorpicker__input::-webkit-color-swatch-wrapper {
+    margin: 0;
+}
+.colorpicker__input::-webkit-color-swatch {
+    padding: 0;
+    border-radius: 6px;
+    border: none;
+}
+.colorpicker__input ::-moz-color-swatch {
+    padding: 0;
+    border-radius: 6px;
+    border: none;
+}
+/* _______________________________________________ */
+
+
+
+.colorpicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.colorpicker__input {
+    width: 35px;
+    height: 35px;
+    line-height: 40px;
+    /* border-top: 1px solid rgba(0,0,0, .2);
+    border-bottom: 1px solid rgba(255,255,255, .2); */
+}
+
+.colorpicker__label {
+    font-size: 13px;
+    font-weight: 600;
+}
