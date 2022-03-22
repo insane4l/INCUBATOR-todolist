@@ -43,6 +43,7 @@ const AddNewItemForm: React.FC<AddNewItemFormPropsType> = ({ addItem }) => {
                 onKeyPress={onKeyPressHandler}
                 helperText={validationError}
                 sx={{width: '100%'}}
+                autoFocus
             />
 
             <Button variant="contained" color="primary" onClick={onSubmitHandler} sx={{width: '100%', mt: '6px', mb: 3}}>

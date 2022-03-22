@@ -1,0 +1,18 @@
+.custom_palette {
+    position: absolute;
+    right: 30px;
+    z-index: 22;
+    animation: dropDown .3s ease;
+    animation-fill-mode: forwards;
+}
+
+@keyframes dropDown{
+    0% {
+        transform: translateY(-110%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(80px);
+        opacity: 1;
+    }
+}

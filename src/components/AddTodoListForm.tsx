@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { addNewTodolistAC } from '../bll/todoListsReducer';
 import { v1 } from 'uuid';
 import { createNewListTasksAC } from '../bll/taskListsReducer';
+import s from './AddTodoListForm.module.css';
 
 const AddTodoListForm: React.FC<{hideNewTodoListForm: ()=>void}> = ({hideNewTodoListForm}) => {
 
@@ -21,7 +22,7 @@ const AddTodoListForm: React.FC<{hideNewTodoListForm: ()=>void}> = ({hideNewTodo
     }
 
     return (
-        <Paper elevation={10} sx={{maxWidth: '400px', p: 2 }}>
+        <Paper className={s.add_todolist__form} elevation={10}>
             <Typography variant="h6" gutterBottom component="h2">
                 New To-Do List
             </Typography>

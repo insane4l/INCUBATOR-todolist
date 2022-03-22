@@ -5,79 +5,60 @@ import { PaletteMode } from '@mui/material'
 import { ColorModeContext } from './contextAPI/ColorModeContext';
 import CssBaseline from '@mui/material/CssBaseline';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Provider } from 'react-redux';
-import { store } from './bll/store';
-import { grey } from '@mui/material/colors';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppStateType } from './bll/store';
+import { setColorModeAC, setThemePaletteAC } from './bll/colorThemeReducer';
 
 const AppContainer = () => {
 
-    const [mode, setMode] = React.useState<PaletteMode | null>(null);
+    // const [mode, setMode] = React.useState<PaletteMode | null>(null);
+    const dispatch = useDispatch();
+    const mode = useSelector<AppStateType, PaletteMode>((state) => state.colorTheme.currentColorMode);
+    const lightTheme = useSelector((state: AppStateType) => state.colorTheme.lightTheme);
+    const darkTheme = useSelector((state: AppStateType) => state.colorTheme.darkTheme);
 
     useEffect(() => {
         const savedMode = localStorage.getItem('TL-app-color-mode') as PaletteMode;
-        if (savedMode) setMode(savedMode);
-        if (!savedMode) setMode('light')
+        let colorMode = savedMode || mode;
+        dispatch( setColorModeAC(colorMode) );
+
+        const savedLightTheme = localStorage.getItem('TL-app-light-theme');
+        const savedDarkTheme = localStorage.getItem('TL-app-dark-theme');
+
+        if (savedLightTheme) dispatch( setThemePaletteAC('light', JSON.parse(savedLightTheme)) )
+        if (savedDarkTheme) dispatch( setThemePaletteAC('dark', JSON.parse(savedDarkTheme)) )
     }, []);
 
     useEffect(() => {
         if (mode) localStorage.setItem('TL-app-color-mode', mode);
     }, [mode]);
 
-    const colorMode = React.useMemo(
-        () => ({
-            toggleColorMode: () => {
-                setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-            },
-        }),
-        [],
-    );
-
-    const theme = React.useMemo( () => createTheme({
+    const theme = createTheme({
         palette: {
-            mode: mode || 'light',
+            mode: mode,
             ...(mode === 'light'
-                ? {
-                    // palette values for light mode
-                    primary: {
-                        main: '#6b4efc',
-                    },
-                    secondary: {
-                        main: '#8bc34a',
-                        contrastText: '#fff'
-                    },
-                    divider: grey[300],
-                    text: {
-                        primary: grey[900],
-                        secondary: grey[800],
-                    },
-                }
-                : {
-                    // palette values for dark mode
-                    primary: {
-                        main: '#8bc34a',
-                        contrastText: '#fff'
-                    },
-                    secondary: {
-                        main: '#8bc34a',
-                        contrastText: '#fff'
-                    },
-                    divider: grey[800],
-                }),
+                ? lightTheme
+                : darkTheme),
         },
-    }), [mode], );
+    })
+
+    // const theme = React.useMemo( () => createTheme({
+    //     palette: {
+    //         mode: mode,
+    //         ...(mode === 'light'
+    //             ? lightTheme
+    //             : darkTheme),
+    //     },
+    // }), [mode], );
 
 
     return (
         !mode
-            ? <CircularProgress sx={{ display: 'block', margin: '100px auto' }} />
-            : <ColorModeContext.Provider value={colorMode}>
-                <ThemeProvider theme={theme}>
+            ?   <CircularProgress sx={{ display: 'block', margin: '100px auto' }} />
+            :   <ThemeProvider theme={theme}>
                     <CssBaseline />
-                    <Provider store={store}>
                         <App />
-                    </Provider>
                 </ThemeProvider>
-            </ColorModeContext.Provider>
     );
 }
 

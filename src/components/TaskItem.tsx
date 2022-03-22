@@ -33,7 +33,7 @@ const TaskItem: React.FC<ListItemPropsType> = ({todoListId, task, withDivider}) 
 
     return (
         <>
-            <ListItem disablePadding sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
+            <ListItem disablePadding sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%'}}>
                 <Box sx={{display: 'flex', alignItems: 'flex-start', width: '100%', opacity: completedTaskOpacity}}>
                     <Checkbox 
                         color="success" 

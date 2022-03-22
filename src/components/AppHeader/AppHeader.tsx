@@ -18,12 +18,14 @@ import { collapseAllTodoListsAC, uncollapseAllTodoListsAC } from '../../bll/todo
 import PaletteIcon from '@mui/icons-material/Palette';
 import SuperColorPicker from '../common/SuperColorPicker';
 import CustomPalette from './CustomPalette';
+import { setColorModeAC } from '../../bll/colorThemeReducer';
 
 
 
 const AppHeader: React.FC = () => {
 
     const [formDisplay, setFormDisplay] = useState(false);
+    const [paletteDisplay, setPaletteDisplay] = useState(false);
 
 
     const toggleFormDisplay = () => {
@@ -33,37 +35,46 @@ const AppHeader: React.FC = () => {
         setFormDisplay(false)
     }
 
-    const addListFormStyle = {
-        position: 'absolute',
-        left: '30px',
-        zIndex: 22,
-        transform: formDisplay ? 'translateY(0)' : 'translateY(-140%)',
-        opacity: formDisplay ? '1' : '0',
-        transition: 'all .3s ease'
+    const togglePaletteDisplay = () => {
+        setPaletteDisplay(prevStatus => !prevStatus)
     }
+    const hideCustomPalette = () => {
+        setPaletteDisplay(false)
+    }
+
 
     // enableColorOnDark prop = colored header on dark theme on
     return (
         <>
-            <AppBar position="static" color="primary" >
+            <AppBar position="relative" color="primary" >
                 <Toolbar>
                     <LeftMenu 
                         toggleFormDisplay={toggleFormDisplay}/>
                     {/* <SpeedDialMenu /> */}
 
                     
-                        <RightMenu />
+                    <RightMenu 
+                        togglePaletteDisplay={togglePaletteDisplay}
+                        hideCustomPalette={hideCustomPalette} />
 
                 </Toolbar>
+
+
+                {formDisplay 
+                    && <AddTodoListForm hideNewTodoListForm={hideNewTodoListForm}/>}
+
+
+
+                {paletteDisplay 
+                    && <CustomPalette hideCustomPalette={hideCustomPalette} />}
+
+
             </AppBar>
 
 
-            <Box sx={addListFormStyle}>
-                <AddTodoListForm hideNewTodoListForm={hideNewTodoListForm}/>
-            </Box>
+            
 
-
-            <CustomPalette />
+            
         </>
     )
 }
@@ -107,23 +118,37 @@ const LeftMenu: React.FC<LeftMenuPropsType> = ({toggleFormDisplay}) => {
 }
 
 
-const RightMenu: React.FC = () => {
+
+type RightMenuPropsType= {
+    togglePaletteDisplay: () => void
+    hideCustomPalette: () => void
+}
+
+const RightMenu: React.FC<RightMenuPropsType> = ({togglePaletteDisplay, hideCustomPalette}) => {
 
     const theme = useTheme();
-    const colorMode = React.useContext(ColorModeContext);
+    const dispatch = useDispatch();
 
+    const setLightColorMode = () => {
+        dispatch(setColorModeAC('light') )
+        hideCustomPalette();
+    }
+    const setDarkColorMode = () => {
+        dispatch(setColorModeAC('dark') )
+        hideCustomPalette();
+    }
 
     return (
         <Box sx={{ m: "0 0 0 auto" }}>
-            <MenuButton descr='Set custom palette' onClick={() => {}}>
+            <MenuButton descr='Set custom palette' onClick={togglePaletteDisplay}>
                 <PaletteIcon />
             </MenuButton>
 
             {theme.palette.mode === 'dark'
-                ?   <MenuButton descr='Swith to light mode' onClick={colorMode.toggleColorMode}>
+                ?   <MenuButton descr='Swith to light mode' onClick={setLightColorMode}>
                         <Brightness4Icon />
                     </MenuButton>
-                :   <MenuButton descr='Swith to dark mode' onClick={colorMode.toggleColorMode}>
+                :   <MenuButton descr='Swith to dark mode' onClick={setDarkColorMode}>
                         <Brightness7Icon />
                     </MenuButton>
             }

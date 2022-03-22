@@ -17,7 +17,7 @@ const TaskList: React.FC<TaskListPropsType> = ({todoListId, todoListCurrentFilte
     }
 
     return (
-        <List>
+        <List sx={{width: '100%'}}>
             {tasks.map((el, i) => (
                 <TaskItem 
                     key={el.id}

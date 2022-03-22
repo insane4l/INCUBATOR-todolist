@@ -46,9 +46,9 @@ const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
 	}
 
 	
-	console.log(`todolist id: [${todoListId}] rerendered`);
+	// console.log(`todolist id: [${todoListId}] rerendered`);
     return (
-		<Grid item xs={4}>
+		<Grid item xs={12} md={6} lg={4} xl={3}>
 			<Paper elevation={6}>
 
 				{/* TodoList Header */}
