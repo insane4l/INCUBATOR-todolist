@@ -1,13 +1,13 @@
 import React from 'react';
-import { TaskType } from '../types/types';
-import EditableTextLine from './common/EditableTextLine';
+import { TaskType } from '../../types/types';
+import EditableTextLine from '../common/EditableTextLine';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import { useDispatch } from 'react-redux';
-import { changeTaskTitleAC, removeTaskAC, toggleTaskStatusAC } from '../bll/taskListsReducer';
+import { changeTaskTitleAC, removeTaskAC, toggleTaskStatusAC } from '../../bll/taskListsReducer';
 import Divider from '@mui/material/Divider';
 
 
@@ -40,7 +40,6 @@ const TaskItem: React.FC<ListItemPropsType> = ({todoListId, task, withDivider}) 
                         checked={isDone}
                         onChange={changeTaskStatus} />
 
-                    {/* todo: mb fill text box with bg color */}
                     <Box sx={{width: '100%', p: '9px 0'}}> 
                         <EditableTextLine text={title} setNewText={changeTaskTitle} />
                     </Box>

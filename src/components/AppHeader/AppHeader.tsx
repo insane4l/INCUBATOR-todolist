@@ -4,20 +4,19 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import AddTodoListForm from '../AddTodoListForm';
+import AddTodoListForm from '../AddTodoListForm/AddTodoListForm';
 import Box from '@mui/material/Box';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useTheme } from '@mui/material';
-import { ColorModeContext } from '../../contextAPI/ColorModeContext';
 import Tooltip from '@mui/material/Tooltip';
 import RemoveFromQueueIcon from '@mui/icons-material/RemoveFromQueue';
 import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
 import { useDispatch } from 'react-redux';
 import { collapseAllTodoListsAC, uncollapseAllTodoListsAC } from '../../bll/todoListsReducer';
 import PaletteIcon from '@mui/icons-material/Palette';
-import SuperColorPicker from '../common/SuperColorPicker';
-import CustomPalette from './CustomPalette';
+import SuperColorPicker from '../common/SuperColorPicker/SuperColorPicker';
+import CustomPalette from '../CustomPalette/CustomPalette';
 import { setColorModeAC } from '../../bll/colorThemeReducer';
 
 

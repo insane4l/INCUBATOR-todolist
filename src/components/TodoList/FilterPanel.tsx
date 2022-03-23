@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { Box } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { changeTodolistFilterAC } from '../bll/todoListsReducer';
+import { changeTodolistFilterAC } from '../../bll/todoListsReducer';
 import { v1 } from 'uuid';
 
 

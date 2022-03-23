@@ -45,3 +45,12 @@
     font-size: 13px;
     font-weight: 600;
 }
+
+
+.colorpicker__input:focus {
+    box-shadow: rgba(25, 118, 210, .3) -2px 3px 3px 0px;
+}
+.colorpicker__input:hover {
+    opacity: .9;
+}
+

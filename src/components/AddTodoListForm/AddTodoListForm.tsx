@@ -1,11 +1,11 @@
 import React from 'react';
-import AddNewItemForm from './common/AddNewItemForm';
+import AddNewItemForm from '../common/AddNewItemForm';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { useDispatch } from 'react-redux';
-import { addNewTodolistAC } from '../bll/todoListsReducer';
+import { addNewTodolistAC } from '../../bll/todoListsReducer';
 import { v1 } from 'uuid';
-import { createNewListTasksAC } from '../bll/taskListsReducer';
+import { createNewListTasksAC } from '../../bll/taskListsReducer';
 import s from './AddTodoListForm.module.css';
 
 const AddTodoListForm: React.FC<{hideNewTodoListForm: ()=>void}> = ({hideNewTodoListForm}) => {

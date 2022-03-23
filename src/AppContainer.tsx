@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import App from './App';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { PaletteMode } from '@mui/material'
-import { ColorModeContext } from './contextAPI/ColorModeContext';
 import CssBaseline from '@mui/material/CssBaseline';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +10,6 @@ import { setColorModeAC, setThemePaletteAC } from './bll/colorThemeReducer';
 
 const AppContainer = () => {
 
-    // const [mode, setMode] = React.useState<PaletteMode | null>(null);
     const dispatch = useDispatch();
     const mode = useSelector<AppStateType, PaletteMode>((state) => state.colorTheme.currentColorMode);
     const lightTheme = useSelector((state: AppStateType) => state.colorTheme.lightTheme);
@@ -41,15 +39,6 @@ const AppContainer = () => {
                 : darkTheme),
         },
     })
-
-    // const theme = React.useMemo( () => createTheme({
-    //     palette: {
-    //         mode: mode,
-    //         ...(mode === 'light'
-    //             ? lightTheme
-    //             : darkTheme),
-    //     },
-    // }), [mode], );
 
 
     return (

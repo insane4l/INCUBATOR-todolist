@@ -1,5 +1,5 @@
 import React from 'react';
-import TodoList from './components/TodoList';
+import TodoList from './components/TodoList/TodoList';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import AppHeader from './components/AppHeader/AppHeader';

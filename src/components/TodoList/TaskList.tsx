@@ -2,8 +2,9 @@ import React from 'react';
 import TaskItem from './TaskItem';
 import List from '@mui/material/List';
 import { useSelector } from 'react-redux';
-import { AppStateType } from '../bll/store';
+import { AppStateType } from '../../bll/store';
 import { FilterValuesType } from './FilterPanel';
+import ListItem from '@mui/material/ListItem';
 
 const TaskList: React.FC<TaskListPropsType> = ({todoListId, todoListCurrentFilter}) => {
 
@@ -16,15 +17,19 @@ const TaskList: React.FC<TaskListPropsType> = ({todoListId, todoListCurrentFilte
         tasks = tasks.filter(el => el.isDone === true);
     }
 
+    const mappedTaskItems = tasks.map((el, i) => (
+        <TaskItem 
+            key={el.id}
+            todoListId={todoListId}
+            task={el}
+            withDivider={i !== (tasks.length - 1)} />
+    ));
+
     return (
         <List sx={{width: '100%'}}>
-            {tasks.map((el, i) => (
-                <TaskItem 
-                    key={el.id}
-                    todoListId={todoListId}
-                    task={el}
-                    withDivider={i !== (tasks.length - 1)} />
-            ) )}
+            {mappedTaskItems}
+
+            {(tasks.length === 0) && <ListItem sx={{justifyContent: 'center', fontSize: '18px'}} >List is empty</ListItem>}
         </List>
     )
 }

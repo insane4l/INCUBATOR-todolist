@@ -1,6 +1,6 @@
 import React from 'react';
-import AddNewItemForm from './common/AddNewItemForm';
-import EditableTextLine from './common/EditableTextLine';
+import AddNewItemForm from '../common/AddNewItemForm';
+import EditableTextLine from '../common/EditableTextLine';
 import FilterPanel from './FilterPanel';
 import TaskList from './TaskList';
 import IconButton from '@mui/material/IconButton';
@@ -13,8 +13,8 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import { useDispatch } from 'react-redux';
-import { changeTodolistTitleAC, deleteTodolistAC, TodoListType, toggleTodolistCollapseAC } from '../bll/todoListsReducer';
-import { addNewTaskAC, removeAllListTasksAC } from '../bll/taskListsReducer';
+import { changeTodolistTitleAC, deleteTodolistAC, TodoListType, toggleTodolistCollapseAC } from '../../bll/todoListsReducer';
+import { addNewTaskAC, removeAllListTasksAC } from '../../bll/taskListsReducer';
 import { v1 } from 'uuid';
 import { useTheme } from '@mui/system';
 

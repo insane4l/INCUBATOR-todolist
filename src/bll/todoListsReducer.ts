@@ -1,5 +1,5 @@
 import {v1} from 'uuid';
-import { FilterValuesType } from '../components/FilterPanel';
+import { FilterValuesType } from '../components/TodoList/FilterPanel';
 
 
 export const todoListsId = [
