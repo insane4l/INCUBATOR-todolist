@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TaskType } from '../../types/types';
 import EditableTextLine from '../common/EditableTextLine';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -9,11 +9,14 @@ import ListItem from '@mui/material/ListItem';
 import { useDispatch } from 'react-redux';
 import { changeTaskTitleAC, removeTaskAC, toggleTaskStatusAC } from '../../bll/taskListsReducer';
 import Divider from '@mui/material/Divider';
+import ConfirmModal from '../common/ConfirmModal';
 
 
 
 const TaskItem: React.FC<ListItemPropsType> = ({todoListId, task, withDivider}) => {
 
+    const [displayModal, setModalDisplay] = useState(false);
+    
     const {title, isDone, id} = task;
     const dispatch = useDispatch();
 
@@ -25,8 +28,13 @@ const TaskItem: React.FC<ListItemPropsType> = ({todoListId, task, withDivider}) 
         dispatch( changeTaskTitleAC(todoListId, id, newTitle) );
     }
 
-    const removeTask = () => {
-        dispatch( removeTaskAC(todoListId, id) );
+    const onRemoveTaskClickHandler = () => {
+        setModalDisplay(true);
+    }
+
+    const confirmTaskRemoving = (confirmation: boolean) => {
+        confirmation && dispatch( removeTaskAC(todoListId, id) );
+        setModalDisplay(false);
     }
 
     const completedTaskOpacity = isDone ? '.4' : '1'; 
@@ -45,11 +53,18 @@ const TaskItem: React.FC<ListItemPropsType> = ({todoListId, task, withDivider}) 
                     </Box>
                 </Box>
 
-                <IconButton onClick={removeTask}>
+                <IconButton onClick={onRemoveTaskClickHandler}>
                     <DeleteForeverIcon />
                 </IconButton>
             </ListItem>
+
             {withDivider && <Divider />}
+
+            <ConfirmModal 
+                title={`Delete "${title}" ?`}
+                displayModal={displayModal}
+                onAnswerCallback={confirmTaskRemoving}
+                onOverlayClose={() => setModalDisplay(false)}/>
         </>
 
     )

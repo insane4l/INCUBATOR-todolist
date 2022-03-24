@@ -34,12 +34,12 @@ const todoListsReducer = (state: TodoListsStateType = initialState, action: Todo
                     : el
                 ))
             ]
-        case 'tl/TODO-LISTS/ADD-NEW-TODOLIST': 
+        case 'tl/TODO-LISTS-TASK-LISTS/ADD-NEW-TODOLIST': 
             return [
                 {id: action.payload.newTodolistId, title: action.payload.title, currentFilter: 'all', isCollapsed: false}, // id should be in payload.... change tasklistsReducer also and tests (NOT POSSIBLE v1() in pure function)
                 ...state
             ]
-        case 'tl/TODO-LISTS/DELETE-TODOLIST': 
+        case 'tl/TODO-LISTS-TASK-LISTS/DELETE-TODOLIST': 
             return [
                 ...state.filter(el => el.id !== action.payload.todoListId)
             ]
@@ -70,17 +70,17 @@ type TodoListsActionsType = ReturnType<typeof changeTodolistTitleAC>
 | ReturnType<typeof collapseAllTodoListsAC> | ReturnType<typeof uncollapseAllTodoListsAC>
 
 
+export const addNewTodolistAC = (title: string) => (
+    {type: 'tl/TODO-LISTS-TASK-LISTS/ADD-NEW-TODOLIST', payload: {newTodolistId: v1(), title}} as const
+)
+export const deleteTodolistAC = (todoListId: string) => (
+    {type: 'tl/TODO-LISTS-TASK-LISTS/DELETE-TODOLIST', payload: {todoListId}} as const
+)
 export const changeTodolistTitleAC = (todoListId: string, newTitle: string) => (
     {type: 'tl/TODO-LISTS/CHANGE-TODOLIST-TITLE', payload: {todoListId, newTitle}} as const
 )
 export const changeTodolistFilterAC = (todoListId: string, filter: FilterValuesType) => (
     {type: 'tl/TODO-LISTS/CHANGE-TODOLIST-FILTER', payload: {todoListId, filter}} as const
-)
-export const addNewTodolistAC = (newTodolistId: string, title: string) => (
-    {type: 'tl/TODO-LISTS/ADD-NEW-TODOLIST', payload: {newTodolistId, title}} as const
-)
-export const deleteTodolistAC = (todoListId: string) => (
-    {type: 'tl/TODO-LISTS/DELETE-TODOLIST', payload: {todoListId}} as const
 )
 export const toggleTodolistCollapseAC = (todoListId: string) => (
     {type: 'tl/TODO-LISTS/TOGGLE-TODOLIST-COLLAPSE', payload: {todoListId}} as const

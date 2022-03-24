@@ -3,8 +3,8 @@ import TaskItem from './TaskItem';
 import List from '@mui/material/List';
 import { useSelector } from 'react-redux';
 import { AppStateType } from '../../bll/store';
-import { FilterValuesType } from './FilterPanel';
 import ListItem from '@mui/material/ListItem';
+import { FilterValuesType } from './FilterPanel';
 
 const TaskList: React.FC<TaskListPropsType> = ({todoListId, todoListCurrentFilter}) => {
 

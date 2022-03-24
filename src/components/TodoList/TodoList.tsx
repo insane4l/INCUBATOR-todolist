@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AddNewItemForm from '../common/AddNewItemForm';
 import EditableTextLine from '../common/EditableTextLine';
 import FilterPanel from './FilterPanel';
@@ -14,22 +14,24 @@ import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import { useDispatch } from 'react-redux';
 import { changeTodolistTitleAC, deleteTodolistAC, TodoListType, toggleTodolistCollapseAC } from '../../bll/todoListsReducer';
-import { addNewTaskAC, removeAllListTasksAC } from '../../bll/taskListsReducer';
+import { addNewTaskAC } from '../../bll/taskListsReducer';
 import { v1 } from 'uuid';
-import { useTheme } from '@mui/system';
+import ConfirmModal from '../common/ConfirmModal';
 
 
 const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
 	const {id, title, currentFilter, isCollapsed} = todoList;
 	const todoListId = id;
 
-	const dispatch = useDispatch();
-	const dividerColor = useTheme().palette.divider;
-	
+	const [displayModal, setModalDisplay] = useState(false);
+	const dispatch = useDispatch();	
 
 	const deleteTodoList = () => {
-		dispatch( deleteTodolistAC(todoListId) )
-		dispatch( removeAllListTasksAC(todoListId) )
+		setModalDisplay(true)
+	}
+	const confirmTodoListRemoving = (confirm: boolean) => {
+		confirm && dispatch( deleteTodolistAC(todoListId) );
+		setModalDisplay(false);
 	}
 
 	const addNewTask = (title: string) => {
@@ -48,11 +50,11 @@ const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
 	
 	// console.log(`todolist id: [${todoListId}] rerendered`);
     return (
-		<Grid item xs={12} md={6} lg={4} xl={3}>
+		<Grid item xs={12} md={6} lg={4}>
 			<Paper elevation={6}>
 
 				{/* TodoList Header */}
-				<Box sx={{position: 'relative', display: 'flex', alignItems: 'center', pt: 1, pr: 4, pb: 1, pl: 4, mb: 4, borderBottom: `1px solid ${dividerColor}`}}>
+				<Box sx={{position: 'relative', display: 'flex', alignItems: 'center', pt: 1, pr: 4, pb: 1, pl: 4, mb: 4, borderBottom: theme => `1px solid ${theme.palette.divider}`}}>
 					<Typography variant="h5" gutterBottom component="span" sx={{mb: 0}}>
 						<EditableTextLine text={title} setNewText={changeTodoListTitle}/>
 					</Typography>
@@ -76,6 +78,12 @@ const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
 				</Collapse>
 				
 			</Paper>
+
+			<ConfirmModal 
+                title={`Delete "${title}" to-do list?`}
+                displayModal={displayModal}
+                onAnswerCallback={confirmTodoListRemoving}
+                onOverlayClose={() => setModalDisplay(false)}/>
 		</Grid>
     )
 }

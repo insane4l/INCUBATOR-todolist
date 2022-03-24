@@ -36,7 +36,7 @@ test('only the selected list filter should be changed', () => {
 
 
 test('todo list should be added correctly', () => {
-    let newState = todoListsReducer(initialState, addNewTodolistAC('4', 'new list name') );
+    let newState = todoListsReducer(initialState, addNewTodolistAC('new list name') );
 
     expect(newState.length).toBe(4);
     expect(newState[0].title).toBe('new list name');

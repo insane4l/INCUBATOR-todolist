@@ -4,8 +4,6 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { useDispatch } from 'react-redux';
 import { addNewTodolistAC } from '../../bll/todoListsReducer';
-import { v1 } from 'uuid';
-import { createNewListTasksAC } from '../../bll/taskListsReducer';
 import s from './AddTodoListForm.module.css';
 
 const AddTodoListForm: React.FC<{hideNewTodoListForm: ()=>void}> = ({hideNewTodoListForm}) => {
@@ -13,12 +11,8 @@ const AddTodoListForm: React.FC<{hideNewTodoListForm: ()=>void}> = ({hideNewTodo
     const dispatch = useDispatch();
 
     const addNewTodoList = (title: string) => {
-        let newTodoListId = v1();
-
-        dispatch( addNewTodolistAC(newTodoListId, title) );
-        dispatch( createNewListTasksAC(newTodoListId) );
-
-        hideNewTodoListForm()
+        dispatch( addNewTodolistAC(title) );
+        hideNewTodoListForm();
     }
 
     return (

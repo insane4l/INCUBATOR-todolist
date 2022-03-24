@@ -1,4 +1,5 @@
-import taskListsReducer, { addNewTaskAC, changeTaskTitleAC, createNewListTasksAC, removeAllListTasksAC, removeTaskAC, toggleTaskStatusAC } from "./taskListsReducer"
+import taskListsReducer, { addNewTaskAC, changeTaskTitleAC, removeTaskAC, toggleTaskStatusAC } from "./taskListsReducer"
+import { addNewTodolistAC, deleteTodolistAC } from "./todoListsReducer";
 
 
 let initialState = {
@@ -75,24 +76,27 @@ test('only selected task should be removed in selected list', () => {
 
 
 
+test('when todo list added, new task list should be added (should be empty)', () => {
+    
+    let newState = taskListsReducer(initialState, addNewTodolistAC('new list name') );
+    let listsIdKeys = Object.keys(newState);
+    let newListId = listsIdKeys.find(key => key !== '1' && key !== '2');
 
-test('task list should be cleared', () => {
-    let newState = taskListsReducer(initialState, removeAllListTasksAC('1') );
 
-    expect(newState[1].length).toBe(0);
+    if(!newListId) {
+        throw new Error('new list should be added with new id key')
+    }
+
+    expect(listsIdKeys.length).toBe(3);
+    expect(newState[newListId]).toEqual([]);
 })
-test('only selected task list should be cleared', () => {
-    let newState = taskListsReducer(initialState, removeAllListTasksAC('1') );
-
-    expect(newState[2].length).toBe(4);
-})
 
 
+test('when todo list removed, tasks should be also removed', () => {
+    let newState = taskListsReducer(initialState, deleteTodolistAC('1') );
 
 
-test('new task list should be added (should be empty)', () => {
-    let newState = taskListsReducer(initialState, createNewListTasksAC('3') );
-
-    expect(Object.keys(newState).length).toBe(3);
-    expect(newState['3']).toEqual([]);
+    let taskListsKeys = Object.keys(newState)
+    expect(taskListsKeys.length).toBe(1);
+    expect(taskListsKeys[0]).toBe('2');
 })
