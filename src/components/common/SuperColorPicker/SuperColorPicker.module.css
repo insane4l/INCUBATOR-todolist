@@ -34,9 +34,8 @@
 }
 
 .colorpicker__input {
-    width: 35px;
-    height: 35px;
-    line-height: 40px;
+    width: 28px;
+    height: 28px;
     /* border-top: 1px solid rgba(0,0,0, .2);
     border-bottom: 1px solid rgba(255,255,255, .2); */
 }
@@ -48,7 +47,7 @@
 
 
 .colorpicker__input:focus {
-    box-shadow: rgba(25, 118, 210, .3) -2px 3px 3px 0px;
+    box-shadow: rgba(25, 118, 210, 3) -1px 1px 4px 1px;
 }
 .colorpicker__input:hover {
     opacity: .9;

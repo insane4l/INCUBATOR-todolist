@@ -85,7 +85,7 @@ const CustomPalette: React.FC<{hideCustomPalette: ()=>void}> = ({hideCustomPalet
     const colorPickersWrapperStyle = {
         display: 'inline-flex',
         flexDirection: 'column',
-        gap: '10px',
+        gap: '13px',
         p: '10px 0'
     }
 

@@ -16,11 +16,24 @@ const SuperColorPicker: React.FC<SuperColorPickerPropsType> = ({
     ...restProps
 }) => {
 
+    let bgc = restProps.value?.toString() || '#111111'
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange && onChange(e);
 
-        onColorChange && onColorChange(e.currentTarget.value);
+        //__________________________________
+        // HEX color validation for mobile browsers (on old phones/tablets) that dont support color palette
+        let c = e.currentTarget.value;
+        c = '0000000' + c;
+        c = c.replace(/[^\dabcdef]/gi, '0');
+        c = c.substring(c.length - 6);
+        c = '#' + c;
+        
+        // input highlighting
+        bgc = c;
+        //__________________________________
+
+        onColorChange && onColorChange(c);
     }
 
     const finalInputClassName = className ? `${s.colorpicker__input} ${className}` : s.colorpicker__input;
@@ -30,7 +43,7 @@ const SuperColorPicker: React.FC<SuperColorPickerPropsType> = ({
 
     return (
         <div className={s.colorpicker}>
-            <input onChange={onChangeHandler} className={finalInputClassName} id="super_colorpicker" type="color" {...restProps}/>
+            <input style={{background: bgc}} onChange={onChangeHandler} className={finalInputClassName} id="super_colorpicker" type="color" {...restProps}/>
             {label 
                 && <label className={finalLabelClassName} htmlFor="super_colorpicker">
                     {label}
