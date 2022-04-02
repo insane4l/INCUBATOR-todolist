@@ -21,8 +21,8 @@ import { setColorModeAC } from '../../bll/colorThemeReducer';
 
 
 
-const AppHeader: React.FC = () => {
-
+const AppHeader: React.FC = React.memo( () => {
+    // console.log('AppHeader rendered');
     const [formDisplay, setFormDisplay] = useState(false);
     const [paletteDisplay, setPaletteDisplay] = useState(false);
 
@@ -76,7 +76,7 @@ const AppHeader: React.FC = () => {
             
         </>
     )
-}
+});
 
 
 

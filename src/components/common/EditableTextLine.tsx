@@ -1,8 +1,8 @@
 import TextField from '@mui/material/TextField';
 import React, { ChangeEvent, useState } from 'react';
 
-const EditableTextLine: React.FC<EditableTextLinePropsType> = ({text, setNewText}) => {
-
+const EditableTextLine: React.FC<EditableTextLinePropsType> = React.memo( ({text, setNewText}) => {
+    // console.log('EditableTextLine rendered');
     const [inputValue, setInputValue] = useState('');
     const [editMode, setEditMode] = useState(false);
     const [validationError, setValidationError] = useState(false);
@@ -55,7 +55,7 @@ const EditableTextLine: React.FC<EditableTextLinePropsType> = ({text, setNewText
 
         : <span style={{display: 'inline-block', width: '100%', wordBreak: 'break-word'}} onDoubleClick={onDoubleClickHandler}>{text}</span>
     
-}
+})
 
 export default EditableTextLine;
 

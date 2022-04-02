@@ -8,14 +8,14 @@ type SuperColorPickerPropsType = DefaultInputType & {
     label?: string
 }
 
-const SuperColorPicker: React.FC<SuperColorPickerPropsType> = ({
+const SuperColorPicker: React.FC<SuperColorPickerPropsType> = React.memo( ({
     type, // so we cant change input type with component props
     onChange, onColorChange,
     className, 
     label, labelClassName,
     ...restProps
 }) => {
-
+    // console.log('SuperColorPicker rendered');
     let bgc = restProps.value?.toString() || '#111111'
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,6 +51,6 @@ const SuperColorPicker: React.FC<SuperColorPickerPropsType> = ({
             }
         </div>
     )
-}
+})
 
 export default SuperColorPicker;

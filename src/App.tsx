@@ -10,7 +10,8 @@ import Box from '@mui/material/Box';
 
 
 function App() {
-
+    // console.log('App rendered');
+    
     const todoLists = useSelector( (state: AppStateType) => state.todoLists );
 
     const mappedTodoLists = todoLists.map(list => {

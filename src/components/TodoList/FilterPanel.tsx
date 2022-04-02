@@ -18,8 +18,8 @@ export type FilterValuesType = 'all' | 'active' | 'completed'
 export type DefaultFiltersType = Array<{title: string, value: FilterValuesType, id: string}>
 
 
-const FilterPanel: React.FC<FilterPanelPropsType> = ({todoListId, currentFilter}) => {
-    
+const FilterPanel: React.FC<FilterPanelPropsType> = React.memo( ({todoListId, currentFilter}) => {
+    // console.log('FilterPanel rendered');
     const dispatch = useDispatch();
 
     const changeTodoListFilter = (todoListId: string, filter: FilterValuesType) => {
@@ -44,7 +44,7 @@ const FilterPanel: React.FC<FilterPanelPropsType> = ({todoListId, currentFilter}
             </ButtonGroup>
         </Box>
     )
-}
+})
 
 export default FilterPanel;
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import AddNewItemForm from '../common/AddNewItemForm';
 import EditableTextLine from '../common/EditableTextLine';
 import FilterPanel from './FilterPanel';
@@ -20,6 +20,7 @@ import ConfirmModal from '../common/ConfirmModal';
 
 
 const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
+	// console.log('TodoList rendered');
 	const {id, title, currentFilter, isCollapsed} = todoList;
 	const todoListId = id;
 
@@ -27,25 +28,28 @@ const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
 	const dispatch = useDispatch();	
 
 	const deleteTodoList = () => {
-		setModalDisplay(true)
+		setModalDisplay(true);
 	}
-	const confirmTodoListRemoving = (confirm: boolean) => {
+	const closeModal = useCallback( () => {
+		setModalDisplay(false);
+	}, []);
+	const confirmTodoListRemoving = useCallback( (confirm: boolean) => {
 		confirm && dispatch( deleteTodolistAC(todoListId) );
 		setModalDisplay(false);
-	}
+	}, [dispatch, todoListId]);
 
-	const addNewTask = (title: string) => {
+	const addNewTask = useCallback( (title: string) => {
 		let newTaskId = v1();
 		dispatch(addNewTaskAC(todoListId, newTaskId, title));
-	}
+	}, [dispatch, todoListId]);
 
-	const changeTodoListTitle = (newTitle: string) => {
+	const changeTodoListTitle = useCallback( (newTitle: string) => {
 		dispatch( changeTodolistTitleAC(todoListId, newTitle) )
-	}
+	}, [dispatch, todoListId]);
 
-	const collapseList = () => {
+	const collapseList = useCallback( () => {
 		dispatch( toggleTodolistCollapseAC(todoListId) );
-	}
+	}, [dispatch, todoListId]);
 
 	
 	// console.log(`todolist id: [${todoListId}] rerendered`);
@@ -83,7 +87,7 @@ const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
                 title={`Delete "${title}" to-do list?`}
                 displayModal={displayModal}
                 onAnswerCallback={confirmTodoListRemoving}
-                onOverlayClose={() => setModalDisplay(false)}/>
+                onOverlayClose={closeModal}/>
 		</Grid>
     )
 }

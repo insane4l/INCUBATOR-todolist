@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 
-const ConfirmModal: React.FC<ConfirmModalPropsType> = ({displayModal, title, onAnswerCallback, onOverlayClose}) => {
-
+const ConfirmModal: React.FC<ConfirmModalPropsType> = React.memo( ({displayModal, title, onAnswerCallback, onOverlayClose}) => {
+    // console.log('ConfirmModal rendered');
     const onConfirmHandler = () => {
         onAnswerCallback(true);
     }
@@ -50,7 +50,7 @@ const ConfirmModal: React.FC<ConfirmModalPropsType> = ({displayModal, title, onA
             </Modal>
         </div>
     )
-}
+})
 
 export default ConfirmModal;
 

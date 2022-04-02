@@ -8,8 +8,8 @@ import { ThemePaletteObjType, setThemePaletteAC, defaultLightTheme, defaultDarkT
 import s from './CustomPalette.module.css'
 import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 
-const CustomPalette: React.FC<{hideCustomPalette: ()=>void}> = ({hideCustomPalette}) => {
-
+const CustomPalette: React.FC<{hideCustomPalette: ()=>void}> = React.memo( ({hideCustomPalette}) => {
+    // console.log('CustomPalette rendered');
     const dispatch = useDispatch()
 
     const currentColorMode = useSelector<AppStateType, PaletteMode>(state => state.colorTheme.currentColorMode);
@@ -134,6 +134,6 @@ const CustomPalette: React.FC<{hideCustomPalette: ()=>void}> = ({hideCustomPalet
             
         </Paper>
     )
-}
+})
 
 export default CustomPalette;

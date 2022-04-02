@@ -4,8 +4,8 @@ import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import Button from '@mui/material/Button';
 
 
-const AddNewItemForm: React.FC<AddNewItemFormPropsType> = ({ addItem }) => {
-
+const AddNewItemForm: React.FC<AddNewItemFormPropsType> = React.memo( ({ addItem }) => {
+    // console.log('AddNewItemForm rendered');
     const [newItemTitle, setNewItemTitle] = useState<string>('');
     const [validationError, setValidationError] = useState<string | null>(null);
 
@@ -54,7 +54,7 @@ const AddNewItemForm: React.FC<AddNewItemFormPropsType> = ({ addItem }) => {
             </IconButton> */}
         </div>
     )
-}
+})
 
 export default AddNewItemForm;
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { TaskType } from '../../types/types';
 import EditableTextLine from '../common/EditableTextLine';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -13,29 +13,33 @@ import ConfirmModal from '../common/ConfirmModal';
 
 
 
-const TaskItem: React.FC<ListItemPropsType> = ({todoListId, task, withDivider}) => {
-
+const TaskItem: React.FC<ListItemPropsType> = React.memo( ({todoListId, task, withDivider}) => {
+    // console.log('TaskItem rendered');
     const [displayModal, setModalDisplay] = useState(false);
     
     const {title, isDone, id} = task;
     const dispatch = useDispatch();
 
-    const changeTaskStatus = () => {
+    const changeTaskStatus = useCallback( () => {
         dispatch( toggleTaskStatusAC(todoListId, id) );
-    }
+    }, [dispatch, todoListId, id]);
 
-    const changeTaskTitle = (newTitle: string) => {
+    const changeTaskTitle = useCallback( (newTitle: string) => {
         dispatch( changeTaskTitleAC(todoListId, id, newTitle) );
-    }
+    }, [dispatch, todoListId, id]);
 
-    const onRemoveTaskClickHandler = () => {
+    const onRemoveTaskClickHandler = useCallback( () => {
         setModalDisplay(true);
-    }
+    }, []);
 
-    const confirmTaskRemoving = (confirmation: boolean) => {
+    const confirmTaskRemoving = useCallback( (confirmation: boolean) => {
         confirmation && dispatch( removeTaskAC(todoListId, id) );
         setModalDisplay(false);
-    }
+    }, [dispatch, todoListId, id]);
+
+    const closeModal = useCallback( () => {
+        setModalDisplay(false);
+    }, []);
 
     const completedTaskOpacity = isDone ? '.4' : '1'; 
 
@@ -64,11 +68,11 @@ const TaskItem: React.FC<ListItemPropsType> = ({todoListId, task, withDivider}) 
                 title={`Delete "${title}" ?`}
                 displayModal={displayModal}
                 onAnswerCallback={confirmTaskRemoving}
-                onOverlayClose={() => setModalDisplay(false)}/>
+                onOverlayClose={closeModal}/>
         </>
 
     )
-}
+})
 
 export default TaskItem;
 

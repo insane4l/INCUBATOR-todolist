@@ -6,8 +6,8 @@ import { AppStateType } from '../../bll/store';
 import ListItem from '@mui/material/ListItem';
 import { FilterValuesType } from './FilterPanel';
 
-const TaskList: React.FC<TaskListPropsType> = ({todoListId, todoListCurrentFilter}) => {
-
+const TaskList: React.FC<TaskListPropsType> = React.memo( ({todoListId, todoListCurrentFilter}) => {
+    // console.log('TaskList rendered');
     let tasks = useSelector((state: AppStateType) => state.taskLists[todoListId])
 
     if (todoListCurrentFilter === 'active') {
@@ -32,7 +32,7 @@ const TaskList: React.FC<TaskListPropsType> = ({todoListId, todoListCurrentFilte
             {(tasks.length === 0) && <ListItem sx={{justifyContent: 'center', fontSize: '18px'}} >List is empty</ListItem>}
         </List>
     )
-}
+})
 
 export default TaskList;
 
