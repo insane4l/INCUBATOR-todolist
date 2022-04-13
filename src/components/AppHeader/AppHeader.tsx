@@ -15,17 +15,16 @@ import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
 import { useDispatch } from 'react-redux';
 import { collapseAllTodoListsAC, uncollapseAllTodoListsAC } from '../../bll/todoListsReducer';
 import PaletteIcon from '@mui/icons-material/Palette';
-import SuperColorPicker from '../common/SuperColorPicker/SuperColorPicker';
 import CustomPalette from '../CustomPalette/CustomPalette';
 import { setColorModeAC } from '../../bll/colorThemeReducer';
 
 
+type AppHeaderPropsType = {isAuth: boolean}
 
-const AppHeader: React.FC = React.memo( () => {
+const AppHeader: React.FC<AppHeaderPropsType> = React.memo( ({isAuth}) => {
     // console.log('AppHeader rendered');
     const [formDisplay, setFormDisplay] = useState(false);
     const [paletteDisplay, setPaletteDisplay] = useState(false);
-
 
     const toggleFormDisplay = () => {
         setFormDisplay(prevStatus => !prevStatus)
@@ -47,12 +46,13 @@ const AppHeader: React.FC = React.memo( () => {
         <>
             <AppBar position="relative" color="primary" >
                 <Toolbar>
-                    <LeftMenu 
+                    { isAuth && <LeftMenu 
                         toggleFormDisplay={toggleFormDisplay}/>
-                    {/* <SpeedDialMenu /> */}
+                    }
 
                     
                     <RightMenu 
+                        isAuth={isAuth}
                         togglePaletteDisplay={togglePaletteDisplay}
                         hideCustomPalette={hideCustomPalette} />
 
@@ -119,11 +119,12 @@ const LeftMenu: React.FC<LeftMenuPropsType> = ({toggleFormDisplay}) => {
 
 
 type RightMenuPropsType= {
+    isAuth: boolean
     togglePaletteDisplay: () => void
     hideCustomPalette: () => void
 }
 
-const RightMenu: React.FC<RightMenuPropsType> = ({togglePaletteDisplay, hideCustomPalette}) => {
+const RightMenu: React.FC<RightMenuPropsType> = ({isAuth, togglePaletteDisplay, hideCustomPalette}) => {
 
     const theme = useTheme();
     const dispatch = useDispatch();
@@ -152,7 +153,10 @@ const RightMenu: React.FC<RightMenuPropsType> = ({togglePaletteDisplay, hideCust
                     </MenuButton>
             }
 
-            <Button color="inherit">Login</Button>
+            {isAuth
+                ? <Button color="inherit">Logout</Button>
+                : <Button color="inherit">Login</Button>
+            }
         </Box>
     )
 }

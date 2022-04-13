@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import App from './App';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { PaletteMode } from '@mui/material'
-import CssBaseline from '@mui/material/CssBaseline';
 import CircularProgress from '@mui/material/CircularProgress';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { AppStateType } from './bll/store';
-import { setColorModeAC, setThemePaletteAC } from './bll/colorThemeReducer';
+import { AppStateType } from '../src/bll/store';
+import { setColorModeAC, setThemePaletteAC } from '../src/bll/colorThemeReducer';
+import { PaletteMode } from '@mui/material'
+import { ThemeProvider as Emotion10ThemeProvider } from 'emotion-theming';
 
-const AppContainer = () => {
-
+export const MuiThemeAppDecorator = (Story: React.ComponentType) => {
+     
     const dispatch = useDispatch();
     const mode = useSelector<AppStateType, PaletteMode>((state) => state.colorTheme.currentColorMode);
     const lightTheme = useSelector((state: AppStateType) => state.colorTheme.lightTheme);
@@ -40,15 +40,17 @@ const AppContainer = () => {
         },
     })
 
+    
 
     return (
         !mode
             ?   <CircularProgress sx={{ display: 'block', margin: '100px auto' }} />
-            :   <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                        <App />
-                </ThemeProvider>
+            :   <Emotion10ThemeProvider theme={theme}>
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline />
+                        <Story />
+                    </ThemeProvider>
+                </Emotion10ThemeProvider>
+        
     );
 }
-
-export default AppContainer;

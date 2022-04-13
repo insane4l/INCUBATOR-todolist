@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import AddNewItemForm from '../common/AddNewItemForm';
-import EditableTextLine from '../common/EditableTextLine';
+import AddNewItemForm from '../common/AddNewItemForm/AddNewItemForm';
+import EditableTextLine from '../common/EditableTextLine/EditableTextLine';
 import FilterPanel from './FilterPanel';
 import TaskList from './TaskList';
 import IconButton from '@mui/material/IconButton';
@@ -16,7 +16,7 @@ import { useDispatch } from 'react-redux';
 import { changeTodolistTitleAC, deleteTodolistAC, TodoListType, toggleTodolistCollapseAC } from '../../bll/todoListsReducer';
 import { addNewTaskAC } from '../../bll/taskListsReducer';
 import { v1 } from 'uuid';
-import ConfirmModal from '../common/ConfirmModal';
+import ConfirmModal from '../common/ConfirmModal/ConfirmModal';
 
 
 const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {

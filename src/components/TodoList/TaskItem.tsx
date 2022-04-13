@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { TaskType } from '../../types/types';
-import EditableTextLine from '../common/EditableTextLine';
+import EditableTextLine from '../common/EditableTextLine/EditableTextLine';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
@@ -9,7 +9,7 @@ import ListItem from '@mui/material/ListItem';
 import { useDispatch } from 'react-redux';
 import { changeTaskTitleAC, removeTaskAC, toggleTaskStatusAC } from '../../bll/taskListsReducer';
 import Divider from '@mui/material/Divider';
-import ConfirmModal from '../common/ConfirmModal';
+import ConfirmModal from '../common/ConfirmModal/ConfirmModal';
 
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import AddNewItemForm from '../common/AddNewItemForm';
+import AddNewItemForm from '../common/AddNewItemForm/AddNewItemForm';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { useDispatch } from 'react-redux';
