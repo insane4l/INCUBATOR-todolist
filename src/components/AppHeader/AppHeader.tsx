@@ -130,11 +130,11 @@ const RightMenu: React.FC<RightMenuPropsType> = ({isAuth, togglePaletteDisplay, 
     const dispatch = useDispatch();
 
     const setLightColorMode = () => {
-        dispatch(setColorModeAC('light') )
+        dispatch(setColorModeAC('light') );
         hideCustomPalette();
     }
     const setDarkColorMode = () => {
-        dispatch(setColorModeAC('dark') )
+        dispatch(setColorModeAC('dark') );
         hideCustomPalette();
     }
 
