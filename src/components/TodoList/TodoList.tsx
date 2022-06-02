@@ -13,9 +13,8 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import { useDispatch } from 'react-redux';
-import { changeTodolistTitleAC, deleteTodolistAC, TodoListType, toggleTodolistCollapseAC } from '../../bll/todoListsReducer';
-import { addNewTaskAC } from '../../bll/taskListsReducer';
-import { v1 } from 'uuid';
+import { changeTodolistTitleTC, deleteTodolistTC, TodoListDomainType, toggleTodolistCollapseAC } from '../../bll/todoListsReducer';
+import { addNewTaskTC } from '../../bll/taskListsReducer';
 import ConfirmModal from '../common/ConfirmModal/ConfirmModal';
 
 
@@ -34,17 +33,16 @@ const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
 		setModalDisplay(false);
 	}, []);
 	const confirmTodoListRemoving = useCallback( (confirm: boolean) => {
-		confirm && dispatch( deleteTodolistAC(todoListId) );
+		confirm && dispatch( deleteTodolistTC(todoListId) );
 		setModalDisplay(false);
 	}, [dispatch, todoListId]);
 
 	const addNewTask = useCallback( (title: string) => {
-		let newTaskId = v1();
-		dispatch(addNewTaskAC(todoListId, newTaskId, title));
+		dispatch(addNewTaskTC(todoListId, title));
 	}, [dispatch, todoListId]);
 
 	const changeTodoListTitle = useCallback( (newTitle: string) => {
-		dispatch( changeTodolistTitleAC(todoListId, newTitle) )
+		dispatch( changeTodolistTitleTC(todoListId, newTitle) )
 	}, [dispatch, todoListId]);
 
 	const collapseList = useCallback( () => {
@@ -96,5 +94,5 @@ export default React.memo(TodoList);
 
 
 type TodoListPropsType = {
-	todoList: TodoListType
+	todoList: TodoListDomainType
 }

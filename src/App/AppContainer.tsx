@@ -30,7 +30,7 @@ const AppContainer = () => {
     useEffect(() => {
         if (mode) localStorage.setItem('TL-app-color-mode', mode);
     }, [mode]);
-    debugger;
+
     const theme = createTheme({
         palette: {
             mode: mode,

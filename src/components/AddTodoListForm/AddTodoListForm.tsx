@@ -3,7 +3,7 @@ import AddNewItemForm from '../common/AddNewItemForm/AddNewItemForm';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { useDispatch } from 'react-redux';
-import { addNewTodolistAC } from '../../bll/todoListsReducer';
+import { addNewTodolistTC } from '../../bll/todoListsReducer';
 import s from './AddTodoListForm.module.css';
 import { useMediaQuery } from '@mui/material';
 
@@ -13,7 +13,7 @@ const AddTodoListForm: React.FC<{hideNewTodoListForm: ()=>void}> = React.memo( (
     const isMobile = useMediaQuery('(max-width:599px)');
     
     const addNewTodoList = (title: string) => {
-        dispatch( addNewTodolistAC(title) );
+        dispatch( addNewTodolistTC(title) );
         hideNewTodoListForm();
     }
 

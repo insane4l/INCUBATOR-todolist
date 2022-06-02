@@ -1,20 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TaskItem from './TaskItem';
 import List from '@mui/material/List';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppStateType } from '../../bll/store';
 import ListItem from '@mui/material/ListItem';
 import { FilterValuesType } from './FilterPanel';
+import { TaskStatuses } from '../../api/taskListsAPI';
+import { requestTasksTC } from '../../bll/taskListsReducer';
 
 const TaskList: React.FC<TaskListPropsType> = React.memo( ({todoListId, todoListCurrentFilter}) => {
     // console.log('TaskList rendered');
     let tasks = useSelector((state: AppStateType) => state.taskLists[todoListId])
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch( requestTasksTC(todoListId) )
+    }, [])
 
     if (todoListCurrentFilter === 'active') {
-        tasks = tasks.filter(el => el.isDone === false);
+        tasks = tasks.filter(el => el.status === TaskStatuses.New);
     }
     if (todoListCurrentFilter === 'completed') {
-        tasks = tasks.filter(el => el.isDone === true);
+        tasks = tasks.filter(el => el.status === TaskStatuses.Completed);
     }
 
     const mappedTaskItems = tasks.map((el, i) => (

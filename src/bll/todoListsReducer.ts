@@ -1,23 +1,17 @@
-import {v1} from 'uuid';
+import { Dispatch } from 'react';
+import { TodoListType } from '../api/todoListsAPI';
 import { FilterValuesType } from '../components/TodoList/FilterPanel';
-
-
-export const todoListsId = [
-    v1(), v1(), v1(),
-]
+import { todoListsAPI } from '../api/todoListsAPI';
 
 
 let initialState = [
-    {id: todoListsId[0], title: "Must Learn", currentFilter: 'all', isCollapsed: true} as TodoListType,
-    {id: todoListsId[1], title: "Job Search", currentFilter: 'all', isCollapsed: true} as TodoListType,
-    {id: todoListsId[2], title: "Some Goals", currentFilter: 'all', isCollapsed: true} as TodoListType,
-]
 
-export type TodoListType = { id: string, title: string, currentFilter: FilterValuesType, isCollapsed: boolean }
-export type TodoListsStateType = typeof initialState;
+] as TodoListDomainType[]
 
 const todoListsReducer = (state: TodoListsStateType = initialState, action: TodoListsActionsType): TodoListsStateType => {
     switch(action.type) {
+        case 'tl/TODO-LISTS-TASK-LISTS/SET-TODOLISTS':
+            return action.todoLists.map(el => ({...el, currentFilter: 'all', isCollapsed: true}))
         case 'tl/TODO-LISTS/CHANGE-TODOLIST-TITLE': 
             return [
                 ...state.map(el => (
@@ -36,13 +30,11 @@ const todoListsReducer = (state: TodoListsStateType = initialState, action: Todo
             ]
         case 'tl/TODO-LISTS-TASK-LISTS/ADD-NEW-TODOLIST': 
             return [
-                {id: action.payload.newTodolistId, title: action.payload.title, currentFilter: 'all', isCollapsed: false}, // id should be in payload.... change tasklistsReducer also and tests (NOT POSSIBLE v1() in pure function)
+                {...action.newTodoList, currentFilter: 'all', isCollapsed: false},
                 ...state
             ]
         case 'tl/TODO-LISTS-TASK-LISTS/DELETE-TODOLIST': 
-            return [
-                ...state.filter(el => el.id !== action.payload.todoListId)
-            ]
+            return [...state.filter(el => el.id !== action.payload.todoListId)]
         case 'tl/TODO-LISTS/TOGGLE-TODOLIST-COLLAPSE': 
             return [
                 ...state.map(el => (
@@ -68,10 +60,14 @@ type TodoListsActionsType = ReturnType<typeof changeTodolistTitleAC>
 | ReturnType<typeof changeTodolistFilterAC> | ReturnType<typeof addNewTodolistAC> 
 | ReturnType<typeof deleteTodolistAC> | ReturnType<typeof toggleTodolistCollapseAC>
 | ReturnType<typeof collapseAllTodoListsAC> | ReturnType<typeof uncollapseAllTodoListsAC>
+| ReturnType<typeof setTodolistsAC>
 
 
-export const addNewTodolistAC = (title: string) => (
-    {type: 'tl/TODO-LISTS-TASK-LISTS/ADD-NEW-TODOLIST', payload: {newTodolistId: v1(), title}} as const
+export const setTodolistsAC = (todoLists: TodoListType[]) => (
+    {type: 'tl/TODO-LISTS-TASK-LISTS/SET-TODOLISTS', todoLists} as const
+)
+export const addNewTodolistAC = (newTodoList: TodoListType) => (
+    {type: 'tl/TODO-LISTS-TASK-LISTS/ADD-NEW-TODOLIST', newTodoList} as const
 )
 export const deleteTodolistAC = (todoListId: string) => (
     {type: 'tl/TODO-LISTS-TASK-LISTS/DELETE-TODOLIST', payload: {todoListId}} as const
@@ -94,4 +90,54 @@ export const uncollapseAllTodoListsAC = () => (
 
 
 
+
+export const requestTodoListsTC = () => async (dispatch: Dispatch<any>) => {
+    try {
+        let todoLists = await todoListsAPI.getTodoLists();
+
+        dispatch(setTodolistsAC(todoLists));
+    } catch {
+        // todo: fix
+    }
+}
+
+
+export const addNewTodolistTC = (title: string) => async (dispatch: Dispatch<any>) => {
+    try {
+        let response = await todoListsAPI.createTodoList(title);
+
+        dispatch(addNewTodolistAC(response.data.item));
+    } catch {
+        // todo: fix
+    }
+}
+
+
+export const changeTodolistTitleTC = (todoListId: string, newTitle: string) => async (dispatch: Dispatch<any>) => {
+    try {
+        await todoListsAPI.updateTodoList(todoListId, newTitle);
+
+        dispatch(changeTodolistTitleAC(todoListId, newTitle));
+    } catch {
+        // todo: fix
+    }
+}
+
+
+export const deleteTodolistTC = (todoListId: string) => async (dispatch: Dispatch<any>) => {
+    try {
+        await todoListsAPI.deleteTodoList(todoListId);
+
+        dispatch(deleteTodolistAC(todoListId));
+    } catch {
+        // todo: fix
+    }
+}
+
+
 export default todoListsReducer;
+
+
+
+export type TodoListDomainType = TodoListType & {currentFilter: FilterValuesType, isCollapsed: boolean}
+export type TodoListsStateType = typeof initialState;

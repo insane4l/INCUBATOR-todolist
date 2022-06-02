@@ -1,10 +1,22 @@
-import todoListsReducer, { addNewTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, collapseAllTodoListsAC, deleteTodolistAC, TodoListsStateType, toggleTodolistCollapseAC, uncollapseAllTodoListsAC } from "./todoListsReducer"
+import todoListsReducer, { addNewTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, collapseAllTodoListsAC, deleteTodolistAC, setTodolistsAC, TodoListsStateType, toggleTodolistCollapseAC, uncollapseAllTodoListsAC } from "./todoListsReducer"
 
 let initialState = [
-    {id: '1', title: "Must Learn", currentFilter: 'all', isCollapsed: true},
-    {id: '2', title: "Job Search", currentFilter: 'all', isCollapsed: true},
-    {id: '3', title: "Some Goals", currentFilter: 'all', isCollapsed: true},
+    {id: '1', title: "Must Learn", order: 1, addedDate: '', currentFilter: 'all', isCollapsed: true},
+    {id: '2', title: "Job Search", order: 2, addedDate: '', currentFilter: 'all', isCollapsed: true},
+    {id: '3', title: "Some Goals", order: 3, addedDate: '', currentFilter: 'all', isCollapsed: true},
 ] as TodoListsStateType
+
+
+test('todolists should be set to the state', () => {
+    const action = setTodolistsAC([
+        {id: '1', title: "Must Learn", order: 1, addedDate: ''},
+        {id: '2', title: "Job Search", order: 2, addedDate: ''},
+    ])
+
+    let newState = todoListsReducer([], action);
+
+    expect(newState.length).toBe(2)
+})
 
 
 test('selected list title should be changed', () => {
@@ -36,10 +48,12 @@ test('only the selected list filter should be changed', () => {
 
 
 test('todo list should be added correctly', () => {
-    let newState = todoListsReducer(initialState, addNewTodolistAC('new list name') );
+    let newTodoList = {id: '3', title: 'new list name', order: 3, addedDate: ''};
+
+    let newState = todoListsReducer(initialState, addNewTodolistAC(newTodoList) );
 
     expect(newState.length).toBe(4);
-    expect(newState[0].title).toBe('new list name');
+    expect(newState[0].title).toBe(newTodoList.title);
     expect(newState[0].currentFilter).toBe('all');
     expect(newState[0].isCollapsed).toBe(false);
 })

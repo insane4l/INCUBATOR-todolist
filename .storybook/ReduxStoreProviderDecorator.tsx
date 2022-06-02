@@ -3,9 +3,10 @@ import React from 'react'
 import { Provider } from "react-redux";
 import { combineReducers, createStore } from 'redux';
 import { v1 } from 'uuid';
+import { TaskStatuses } from '../src/api/taskListsAPI';
 import colorThemeReducer, { defaultDarkTheme, defaultLightTheme } from '../src/bll/colorThemeReducer';
 import taskListsReducer from '../src/bll/taskListsReducer';
-import todoListsReducer, { TodoListType } from '../src/bll/todoListsReducer';
+import todoListsReducer, { TodoListDomainType } from '../src/bll/todoListsReducer';
 
 
 export const todoListsId = [
@@ -14,37 +15,37 @@ export const todoListsId = [
 
 const initialGlobalState = {
     todoLists: [
-        {id: todoListsId[0], title: "Must Learn", currentFilter: 'all', isCollapsed: true} as TodoListType,
-        {id: todoListsId[1], title: "Job Search", currentFilter: 'all', isCollapsed: true} as TodoListType,
-        {id: todoListsId[2], title: "Some Goals", currentFilter: 'all', isCollapsed: true} as TodoListType,
-    ],
+        {id: todoListsId[0], title: "Must Learn", order: 1, addedDate: '', currentFilter: 'all', isCollapsed: true},
+        {id: todoListsId[1], title: "Job Search", order: 2, addedDate: '', currentFilter: 'all', isCollapsed: true},
+        {id: todoListsId[2], title: "Some Goals", order: 3, addedDate: '', currentFilter: 'all', isCollapsed: true},
+    ] as TodoListDomainType[] ,
     taskLists: {
         [todoListsId[0]]: [
-            {title: 'HTML & CSS', isDone: true, id: v1()},
-            {title: 'JavaScript & TypeScript', isDone: true, id: v1()},
-            {title: 'React & Redux', isDone: true, id: v1()},
-            {title: 'Material UI', isDone: false, id: v1()},
-            {title: 'Unit Tests', isDone: false, id: v1()},
-            {title: 'Postman API', isDone: false, id: v1()},
-            {title: 'API Development', isDone: false, id: v1()},
-            {title: 'OAuth', isDone: false, id: v1()},
-            {title: 'Webpack', isDone: false, id: v1()},
-            {title: 'ExpressJS', isDone: false, id: v1()},
-            {title: 'Basic Knowledge of NodeJS', isDone: false, id: v1()},
-            {title: 'React Native', isDone: false, id: v1()}
+            {title: 'HTML & CSS', id: v1(), description: '', status: TaskStatuses.Completed, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 1, addedDate: ''},
+            {title: 'JavaScript & TypeScript', id: v1(), description: '', status: TaskStatuses.Completed, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 2, addedDate: ''},
+            {title: 'React & Redux', id: v1(), description: '', status: TaskStatuses.Completed, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 3, addedDate: ''},
+            {title: 'Material UI', id: v1(), description: '', status: TaskStatuses.Completed, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 4, addedDate: ''},
+            {title: 'Unit Tests', id: v1(), description: '', status: TaskStatuses.Completed, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 5, addedDate: ''},
+            {title: 'Postman API', id: v1(), description: '', status: TaskStatuses.New, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 6, addedDate: ''},
+            {title: 'API Development', id: v1(), description: '', status: TaskStatuses.New, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 7, addedDate: ''},
+            {title: 'OAuth', id: v1(), description: '', status: TaskStatuses.New, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 8, addedDate: ''},
+            {title: 'Webpack', id: v1(), description: '', status: TaskStatuses.New, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 9, addedDate: ''},
+            {title: 'ExpressJS', id: v1(), description: '', status: TaskStatuses.New, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 10, addedDate: ''},
+            {title: 'Basic Knowledge of NodeJS', id: v1(), description: '', status: TaskStatuses.New, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 11, addedDate: ''},
+            {title: 'React Native', id: v1(), description: '', status: TaskStatuses.New, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 12, addedDate: ''}
         ],
         [todoListsId[1]]: [
-            {title: 'Complete my linkedIn profile', isDone: true, id: v1()},
-            {title: 'Create CV', isDone: true, id: v1()},
-            {title: 'Improve my english skills', isDone: false, id: v1()},
-            {title: 'Improve my soft skills', isDone: false, id: v1()},
-            {title: 'Find first job as frontend developer', isDone: false, id: v1()}
+            {title: 'Complete my linkedIn profile', id: v1(), description: '', status: TaskStatuses.Completed, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 1, addedDate: ''},
+            {title: 'Create CV', id: v1(), description: '', status: TaskStatuses.Completed, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 2, addedDate: ''},
+            {title: 'Improve my english skills', id: v1(), description: '', status: TaskStatuses.New, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 3, addedDate: ''},
+            {title: 'Improve my soft skills', id: v1(), description: '', status: TaskStatuses.New, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 4, addedDate: ''},
+            {title: 'Find first job as frontend developer', id: v1(), description: '', status: TaskStatuses.New, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 5, addedDate: ''}
         ],
         [todoListsId[2]]: [
-            {title: 'Help someone learn to code', isDone: false, id: v1()},
-            {title: 'Create portfolio page', isDone: false, id: v1()},
-            {title: 'Create an app (prepare for the Estonian citizenship exams)', isDone: false, id: v1()},
-            {title: 'Create an app (todo lists, plans for couples)', isDone: false, id: v1()}
+            {title: 'Help someone learn to code', id: v1(), description: '', status: TaskStatuses.New, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 1, addedDate: ''},
+            {title: 'Create portfolio page', id: v1(), description: '', status: TaskStatuses.Completed, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 2, addedDate: ''},
+            {title: 'Create an app (prepare for the Estonian citizenship exams)', id: v1(), description: '', status: TaskStatuses.New, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 3, addedDate: ''},
+            {title: 'Create an app (todo lists, plans for couples)', id: v1(), description: '', status: TaskStatuses.Completed, priority: 0, startDate: '', deadline: '', todoListId: todoListsId[0], order: 4, addedDate: ''}
         ]
     },
     colorTheme: {

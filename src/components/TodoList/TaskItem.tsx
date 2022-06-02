@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import { TaskType } from '../../types/types';
 import EditableTextLine from '../common/EditableTextLine/EditableTextLine';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import IconButton from '@mui/material/IconButton';
@@ -7,9 +6,10 @@ import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import { useDispatch } from 'react-redux';
-import { changeTaskTitleAC, removeTaskAC, toggleTaskStatusAC } from '../../bll/taskListsReducer';
+import { removeTaskTC, updateTaskTC } from '../../bll/taskListsReducer';
 import Divider from '@mui/material/Divider';
 import ConfirmModal from '../common/ConfirmModal/ConfirmModal';
+import { TaskStatuses, TaskType } from '../../api/taskListsAPI';
 
 
 
@@ -17,15 +17,18 @@ const TaskItem: React.FC<ListItemPropsType> = React.memo( ({todoListId, task, wi
     // console.log('TaskItem rendered');
     const [displayModal, setModalDisplay] = useState(false);
     
-    const {title, isDone, id} = task;
+    const {title, status, id} = task;
+    const isDone = status === TaskStatuses.Completed
+    
     const dispatch = useDispatch();
 
     const changeTaskStatus = useCallback( () => {
-        dispatch( toggleTaskStatusAC(todoListId, id) );
-    }, [dispatch, todoListId, id]);
+        const reversedIsDoneStatus = task.status === TaskStatuses.Completed ? TaskStatuses.New : TaskStatuses.Completed
+        dispatch( updateTaskTC(todoListId, id, {status: reversedIsDoneStatus}) );
+    }, [dispatch, todoListId, id, task.status]);
 
     const changeTaskTitle = useCallback( (newTitle: string) => {
-        dispatch( changeTaskTitleAC(todoListId, id, newTitle) );
+        dispatch( updateTaskTC(todoListId, id, {title: newTitle}) );
     }, [dispatch, todoListId, id]);
 
     const onRemoveTaskClickHandler = useCallback( () => {
@@ -33,7 +36,7 @@ const TaskItem: React.FC<ListItemPropsType> = React.memo( ({todoListId, task, wi
     }, []);
 
     const confirmTaskRemoving = useCallback( (confirmation: boolean) => {
-        confirmation && dispatch( removeTaskAC(todoListId, id) );
+        confirmation && dispatch( removeTaskTC(todoListId, id) );
         setModalDisplay(false);
     }, [dispatch, todoListId, id]);
 

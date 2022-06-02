@@ -1,7 +1,8 @@
-import { combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, createStore } from "redux";
 import colorThemeReducer from "./colorThemeReducer";
 import taskListsReducer from "./taskListsReducer";
 import todoListsReducer from "./todoListsReducer";
+import thunkMiddleware from 'redux-thunk'
 
 const reducers = combineReducers({
     todoLists: todoListsReducer,
@@ -11,7 +12,7 @@ const reducers = combineReducers({
 
 export type AppStateType = ReturnType<typeof reducers>
 
-export const store = createStore(reducers);
+export const store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
 // @ts-ignore
 window.store = store;
