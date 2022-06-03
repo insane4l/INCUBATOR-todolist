@@ -12,17 +12,23 @@ import { useTheme } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import RemoveFromQueueIcon from '@mui/icons-material/RemoveFromQueue';
 import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { collapseAllTodoListsAC, uncollapseAllTodoListsAC } from '../../bll/todoListsReducer';
 import PaletteIcon from '@mui/icons-material/Palette';
 import CustomPalette from '../CustomPalette/CustomPalette';
 import { setColorModeAC } from '../../bll/colorThemeReducer';
+import ProgressBar from './ProgressBar/ProgressBar';
+import { AppRootStateType } from '../../bll/store';
 
 
 type AppHeaderPropsType = {isAuth: boolean}
 
 const AppHeader: React.FC<AppHeaderPropsType> = React.memo( ({isAuth}) => {
     // console.log('AppHeader rendered');
+
+    const appRequestStatus = useSelector<AppRootStateType>(state => state.app.appRequestStatus);
+    const isLoading = (appRequestStatus === 'loading');
+
     const [formDisplay, setFormDisplay] = useState(false);
     const [paletteDisplay, setPaletteDisplay] = useState(false);
 
@@ -57,7 +63,7 @@ const AppHeader: React.FC<AppHeaderPropsType> = React.memo( ({isAuth}) => {
                         hideCustomPalette={hideCustomPalette} />
 
                 </Toolbar>
-
+                {isLoading && <ProgressBar />}
 
                 {formDisplay 
                     && <AddTodoListForm hideNewTodoListForm={hideNewTodoListForm}/>}

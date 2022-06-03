@@ -3,7 +3,7 @@ import SuperColorPicker from '../common/SuperColorPicker/SuperColorPicker';
 import { Box, Button, Divider, PaletteMode, Paper, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppStateType } from '../../bll/store';
+import { AppRootStateType } from '../../bll/store';
 import { ThemePaletteObjType, setThemePaletteAC, defaultLightTheme, defaultDarkTheme } from '../../bll/colorThemeReducer';
 import s from './CustomPalette.module.css'
 import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
@@ -12,9 +12,9 @@ const CustomPalette: React.FC<{hideCustomPalette: ()=>void}> = React.memo( ({hid
     // console.log('CustomPalette rendered');
     const dispatch = useDispatch()
 
-    const currentColorMode = useSelector<AppStateType, PaletteMode>(state => state.colorTheme.currentColorMode);
+    const currentColorMode = useSelector<AppRootStateType, PaletteMode>(state => state.colorTheme.currentColorMode);
     const modeObjPropName = currentColorMode === 'light' ? 'lightTheme' : 'darkTheme';
-    const currentThemePalette = useSelector<AppStateType, ThemePaletteObjType>(state => state.colorTheme[modeObjPropName]);
+    const currentThemePalette = useSelector<AppRootStateType, ThemePaletteObjType>(state => state.colorTheme[modeObjPropName]);
 
     const [primaryColor, setPrimaryColor] = useState(currentThemePalette.primary.main);
     const [primaryContrast, setPrimaryContrast] = useState(currentThemePalette.primary.contrastText);

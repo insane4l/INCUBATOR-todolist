@@ -1,6 +1,8 @@
 import { Dispatch } from 'react';
+import { ResponseResultCodesEnum } from '../api/API';
 import { taskListsAPI, TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType } from '../api/taskListsAPI';
-import { AppStateType } from './store';
+import { setAppMessageAC, setAppRequestStatusAC } from './appReducer';
+import { AppRootStateType } from './store';
 import { addNewTodolistAC, deleteTodolistAC, setTodolistsAC } from './todoListsReducer';
 
 
@@ -107,9 +109,12 @@ export const removeTaskAC = (todoListId: string, taskId: string) => (
 
 export const requestTasksTC = (todoListId: string) => async (dispatch: Dispatch<any>) => {
     try {
+        dispatch( setAppRequestStatusAC('loading') );
         let response = await taskListsAPI.getTasks(todoListId);
+        dispatch( setAppRequestStatusAC('idle') );
 
         dispatch( setTasksAC(todoListId, response.items) );
+
     } catch {
         // todo: fix
     }
@@ -117,7 +122,9 @@ export const requestTasksTC = (todoListId: string) => async (dispatch: Dispatch<
 
 export const removeTaskTC = (todoListId: string, taskId: string) => async (dispatch: Dispatch<any>) => {
     try {
+        dispatch( setAppRequestStatusAC('loading') );
         await taskListsAPI.deleteTask(todoListId, taskId);
+        dispatch( setAppRequestStatusAC('idle') );
 
         dispatch(removeTaskAC(todoListId, taskId));
     } catch {
@@ -127,9 +134,19 @@ export const removeTaskTC = (todoListId: string, taskId: string) => async (dispa
 
 export const addNewTaskTC = (todoListId: string, taskTitle: string) => async (dispatch: Dispatch<any>) => {
     try {
+        dispatch( setAppRequestStatusAC('loading') );
         let response = await taskListsAPI.createTask(todoListId, taskTitle);
+        dispatch( setAppRequestStatusAC('idle') );
 
-        dispatch(addNewTaskAC(response.data.item));
+        if (response.resultCode === ResponseResultCodesEnum.Success) {
+            dispatch(addNewTaskAC(response.data.item));
+
+        } else if (response.messages.length) {
+            dispatch(setAppMessageAC({error: response.messages[0]}));
+
+        } else {
+            dispatch(setAppMessageAC({error: 'Some error occurred'}));
+        }
     } catch {
         // todo: fix
     }
@@ -137,7 +154,7 @@ export const addNewTaskTC = (todoListId: string, taskTitle: string) => async (di
 
 
 
-export const updateTaskTC = (todoListId: string, taskId: string, updatedProperties: UpdatedTaskPropertiesType) => async (dispatch: Dispatch<any>, getState: () => AppStateType) => {
+export const updateTaskTC = (todoListId: string, taskId: string, updatedProperties: UpdatedTaskPropertiesType) => async (dispatch: Dispatch<any>, getState: () => AppRootStateType) => {
     try {
         const task = getState().taskLists[todoListId].find(el => el.id === taskId);
         if (!task) return console.warn('task not found');
@@ -152,9 +169,12 @@ export const updateTaskTC = (todoListId: string, taskId: string, updatedProperti
             ...updatedProperties
         };
 
+        dispatch( setAppRequestStatusAC('loading') );
         await taskListsAPI.updateTask(todoListId, taskId, model);
+        dispatch( setAppRequestStatusAC('idle') );
 
         dispatch(updateTaskAC(todoListId, taskId, model));
+
     } catch {
         // todo: fix
     }

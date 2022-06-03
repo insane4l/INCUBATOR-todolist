@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { AppStateType } from '../src/bll/store';
+import { AppRootStateType } from '../src/bll/store';
 import { setColorModeAC, setThemePaletteAC } from '../src/bll/colorThemeReducer';
 import { PaletteMode } from '@mui/material'
 import { ThemeProvider as Emotion10ThemeProvider } from 'emotion-theming';
@@ -11,9 +11,9 @@ import { ThemeProvider as Emotion10ThemeProvider } from 'emotion-theming';
 export const MuiThemeAppDecorator = (Story: React.ComponentType) => {
      
     const dispatch = useDispatch();
-    const mode = useSelector<AppStateType, PaletteMode>((state) => state.colorTheme.currentColorMode);
-    const lightTheme = useSelector((state: AppStateType) => state.colorTheme.lightTheme);
-    const darkTheme = useSelector((state: AppStateType) => state.colorTheme.darkTheme);
+    const mode = useSelector<AppRootStateType, PaletteMode>((state) => state.colorTheme.currentColorMode);
+    const lightTheme = useSelector((state: AppRootStateType) => state.colorTheme.lightTheme);
+    const darkTheme = useSelector((state: AppRootStateType) => state.colorTheme.darkTheme);
 
     useEffect(() => {
         const savedMode = localStorage.getItem('TL-app-color-mode') as PaletteMode;

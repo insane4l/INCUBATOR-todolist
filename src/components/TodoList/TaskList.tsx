@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import TaskItem from './TaskItem';
 import List from '@mui/material/List';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppStateType } from '../../bll/store';
+import { AppRootStateType } from '../../bll/store';
 import ListItem from '@mui/material/ListItem';
 import { FilterValuesType } from './FilterPanel';
 import { TaskStatuses } from '../../api/taskListsAPI';
@@ -10,7 +10,7 @@ import { requestTasksTC } from '../../bll/taskListsReducer';
 
 const TaskList: React.FC<TaskListPropsType> = React.memo( ({todoListId, todoListCurrentFilter}) => {
     // console.log('TaskList rendered');
-    let tasks = useSelector((state: AppStateType) => state.taskLists[todoListId])
+    let tasks = useSelector((state: AppRootStateType) => state.taskLists[todoListId])
     const dispatch = useDispatch();
 
     useEffect(() => {

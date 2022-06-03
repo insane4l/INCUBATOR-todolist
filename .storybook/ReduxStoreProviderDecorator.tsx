@@ -5,6 +5,7 @@ import { combineReducers, createStore } from 'redux';
 import { v1 } from 'uuid';
 import { TaskStatuses } from '../src/api/taskListsAPI';
 import colorThemeReducer, { defaultDarkTheme, defaultLightTheme } from '../src/bll/colorThemeReducer';
+import { AppRootStateType } from '../src/bll/store';
 import taskListsReducer from '../src/bll/taskListsReducer';
 import todoListsReducer, { TodoListDomainType } from '../src/bll/todoListsReducer';
 
@@ -13,7 +14,7 @@ export const todoListsId = [
     v1(), v1(), v1(),
 ]
 
-const initialGlobalState = {
+const initialGlobalState: AppRootStateType = {
     todoLists: [
         {id: todoListsId[0], title: "Must Learn", order: 1, addedDate: '', currentFilter: 'all', isCollapsed: true},
         {id: todoListsId[1], title: "Job Search", order: 2, addedDate: '', currentFilter: 'all', isCollapsed: true},
@@ -54,6 +55,14 @@ const initialGlobalState = {
     
         currentColorMode: 'light' as PaletteMode
     },
+    app: {
+        appRequestStatus: 'idle',
+        appMessages: {
+            success: null,
+            error: null,
+            info: null,
+        },
+    }
 }
 
 

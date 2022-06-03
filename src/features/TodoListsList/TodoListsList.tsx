@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppStateType } from '../../bll/store';
+import { AppRootStateType } from '../../bll/store';
 import { requestTodoListsTC } from '../../bll/todoListsReducer';
 import TodoList from '../../components/TodoList/TodoList';
 import Grid from '@mui/material/Grid';
 
 const TodoListsList = () => {
 
-    const todoLists = useSelector( (state: AppStateType) => state.todoLists );
+    const todoLists = useSelector( (state: AppRootStateType) => state.todoLists );
 
     const dispatch = useDispatch();
 

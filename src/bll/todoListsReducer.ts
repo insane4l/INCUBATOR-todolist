@@ -2,6 +2,7 @@ import { Dispatch } from 'react';
 import { TodoListType } from '../api/todoListsAPI';
 import { FilterValuesType } from '../components/TodoList/FilterPanel';
 import { todoListsAPI } from '../api/todoListsAPI';
+import { setAppRequestStatusAC } from './appReducer';
 
 
 let initialState = [
@@ -93,7 +94,9 @@ export const uncollapseAllTodoListsAC = () => (
 
 export const requestTodoListsTC = () => async (dispatch: Dispatch<any>) => {
     try {
+        dispatch( setAppRequestStatusAC('loading') );
         let todoLists = await todoListsAPI.getTodoLists();
+        dispatch( setAppRequestStatusAC('idle') );
 
         dispatch(setTodolistsAC(todoLists));
     } catch {
@@ -104,7 +107,9 @@ export const requestTodoListsTC = () => async (dispatch: Dispatch<any>) => {
 
 export const addNewTodolistTC = (title: string) => async (dispatch: Dispatch<any>) => {
     try {
+        dispatch( setAppRequestStatusAC('loading') );
         let response = await todoListsAPI.createTodoList(title);
+        dispatch( setAppRequestStatusAC('idle') );
 
         dispatch(addNewTodolistAC(response.data.item));
     } catch {
@@ -115,7 +120,9 @@ export const addNewTodolistTC = (title: string) => async (dispatch: Dispatch<any
 
 export const changeTodolistTitleTC = (todoListId: string, newTitle: string) => async (dispatch: Dispatch<any>) => {
     try {
+        dispatch( setAppRequestStatusAC('loading') );
         await todoListsAPI.updateTodoList(todoListId, newTitle);
+        dispatch( setAppRequestStatusAC('idle') );
 
         dispatch(changeTodolistTitleAC(todoListId, newTitle));
     } catch {
@@ -126,7 +133,9 @@ export const changeTodolistTitleTC = (todoListId: string, newTitle: string) => a
 
 export const deleteTodolistTC = (todoListId: string) => async (dispatch: Dispatch<any>) => {
     try {
+        dispatch( setAppRequestStatusAC('loading') );
         await todoListsAPI.deleteTodoList(todoListId);
+        dispatch( setAppRequestStatusAC('idle') );
 
         dispatch(deleteTodolistAC(todoListId));
     } catch {
