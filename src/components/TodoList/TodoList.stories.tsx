@@ -19,5 +19,12 @@ const Template: ComponentStory<typeof TodoList> = (args) => <TodoList {...args} 
 export const TodoListBaseView = Template.bind({});
 // todo: create mock todolist, tasks, filters
 TodoListBaseView.args = {
-    // todoList: {id: todoListsId[0], title: "Must Learn", currentFilter: 'all', isCollapsed: true}
+    // todoList: {id: todoListsId[0], title: "Must Learn", currentFilter: 'all', isCollapsed: true, requestStatus: 'idle'}
+};
+
+
+export const TodoListDisabledView = Template.bind({});
+// todo: create mock todolist, tasks, filters
+TodoListDisabledView.args = {
+    // todoList: {id: todoListsId[0], title: "Must Learn", currentFilter: 'all', isCollapsed: true, requestStatus: 'loading'}
 };

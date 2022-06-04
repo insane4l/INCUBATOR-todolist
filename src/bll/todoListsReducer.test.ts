@@ -1,9 +1,9 @@
 import todoListsReducer, { addNewTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, collapseAllTodoListsAC, deleteTodolistAC, setTodolistsAC, TodoListsStateType, toggleTodolistCollapseAC, uncollapseAllTodoListsAC } from "./todoListsReducer"
 
 let initialState = [
-    {id: '1', title: "Must Learn", order: 1, addedDate: '', currentFilter: 'all', isCollapsed: true},
-    {id: '2', title: "Job Search", order: 2, addedDate: '', currentFilter: 'all', isCollapsed: true},
-    {id: '3', title: "Some Goals", order: 3, addedDate: '', currentFilter: 'all', isCollapsed: true},
+    {id: '1', title: "Must Learn", order: 1, addedDate: '', currentFilter: 'all', isCollapsed: true, requestStatus: 'idle'},
+    {id: '2', title: "Job Search", order: 2, addedDate: '', currentFilter: 'all', isCollapsed: true, requestStatus: 'idle'},
+    {id: '3', title: "Some Goals", order: 3, addedDate: '', currentFilter: 'all', isCollapsed: true, requestStatus: 'idle'},
 ] as TodoListsStateType
 
 

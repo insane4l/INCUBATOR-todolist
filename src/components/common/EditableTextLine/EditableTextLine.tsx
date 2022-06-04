@@ -1,7 +1,7 @@
 import TextField from '@mui/material/TextField';
 import React, { ChangeEvent, useState } from 'react';
 
-const EditableTextLine: React.FC<EditableTextLinePropsType> = React.memo( ({text, setNewText}) => {
+const EditableTextLine: React.FC<EditableTextLinePropsType> = React.memo( ({text, setNewText, disabled = false}) => {
     // console.log('EditableTextLine rendered');
     const [inputValue, setInputValue] = useState('');
     const [editMode, setEditMode] = useState(false);
@@ -12,6 +12,8 @@ const EditableTextLine: React.FC<EditableTextLinePropsType> = React.memo( ({text
     }
 
     const onDoubleClickHandler = () => {
+        if (disabled) return
+
         setEditMode(true);
         setInputValue(text);
     }
@@ -51,6 +53,7 @@ const EditableTextLine: React.FC<EditableTextLinePropsType> = React.memo( ({text
             onBlur={onBlurHandler}
             onKeyPress={onKeyPressHandler}
             autoFocus
+            disabled={disabled}
         />
 
         : <span style={{display: 'inline-block', width: '100%', wordBreak: 'break-word'}} onDoubleClick={onDoubleClickHandler}>{text}</span>
@@ -62,4 +65,5 @@ export default EditableTextLine;
 type EditableTextLinePropsType = {
     text: string
     setNewText: (newText: string) => void
+    disabled?: boolean
 }

@@ -1,13 +1,14 @@
 import { PaletteMode } from '@mui/material';
 import React from 'react'
 import { Provider } from "react-redux";
-import { combineReducers, createStore } from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { v1 } from 'uuid';
 import { TaskStatuses } from '../src/api/taskListsAPI';
 import colorThemeReducer, { defaultDarkTheme, defaultLightTheme } from '../src/bll/colorThemeReducer';
 import { AppRootStateType } from '../src/bll/store';
 import taskListsReducer from '../src/bll/taskListsReducer';
 import todoListsReducer, { TodoListDomainType } from '../src/bll/todoListsReducer';
+import thunkMiddleware from 'redux-thunk';
 
 
 export const todoListsId = [
@@ -16,9 +17,9 @@ export const todoListsId = [
 
 const initialGlobalState: AppRootStateType = {
     todoLists: [
-        {id: todoListsId[0], title: "Must Learn", order: 1, addedDate: '', currentFilter: 'all', isCollapsed: true},
-        {id: todoListsId[1], title: "Job Search", order: 2, addedDate: '', currentFilter: 'all', isCollapsed: true},
-        {id: todoListsId[2], title: "Some Goals", order: 3, addedDate: '', currentFilter: 'all', isCollapsed: true},
+        {id: todoListsId[0], title: "Must Learn", order: 1, addedDate: '', currentFilter: 'all', isCollapsed: true, requestStatus: 'idle'},
+        {id: todoListsId[1], title: "Job Search", order: 2, addedDate: '', currentFilter: 'all', isCollapsed: true, requestStatus: 'idle'},
+        {id: todoListsId[2], title: "Some Goals", order: 3, addedDate: '', currentFilter: 'all', isCollapsed: true, requestStatus: 'idle'},
     ] as TodoListDomainType[] ,
     taskLists: {
         [todoListsId[0]]: [
@@ -74,7 +75,7 @@ const rootReducer = combineReducers({
 })
 
 
-const store = createStore(rootReducer, initialGlobalState)
+const store = createStore(rootReducer, initialGlobalState , applyMiddleware(thunkMiddleware))
 
 
 

@@ -58,7 +58,7 @@ const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
 				{/* TodoList Header */}
 				<Box sx={{position: 'relative', display: 'flex', alignItems: 'center', pt: 1, pr: 4, pb: 1, pl: 4, mb: 4, borderBottom: theme => `1px solid ${theme.palette.divider}`}}>
 					<Typography variant="h5" gutterBottom component="span" sx={{mb: 0}}>
-						<EditableTextLine text={title} setNewText={changeTodoListTitle}/>
+						<EditableTextLine text={title} setNewText={changeTodoListTitle} disabled={todoList.requestStatus === 'loading'}/>
 					</Typography>
 
 					<IconButton onClick={collapseList} >
@@ -73,7 +73,7 @@ const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
 				{/* TodoList Body */}
 				<Collapse in={!isCollapsed}>
 					<Box sx={{pr: 4, pb: 4, pl: 4}}>
-						<AddNewItemForm addItem={addNewTask} />
+						<AddNewItemForm addItem={addNewTask} disabled={todoList.requestStatus === 'loading'} />
 						<TaskList todoListId={todoListId} todoListCurrentFilter={currentFilter}/>
 						<FilterPanel todoListId={todoListId} currentFilter={currentFilter}/>
 					</Box>

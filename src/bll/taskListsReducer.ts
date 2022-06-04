@@ -1,6 +1,7 @@
 import { Dispatch } from 'react';
 import { ResponseResultCodesEnum } from '../api/API';
 import { taskListsAPI, TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType } from '../api/taskListsAPI';
+import { handleAPIResponseError, handleHTTPResponseError } from '../utils/serverErrors';
 import { setAppMessageAC, setAppRequestStatusAC } from './appReducer';
 import { AppRootStateType } from './store';
 import { addNewTodolistAC, deleteTodolistAC, setTodolistsAC } from './todoListsReducer';
@@ -115,20 +116,28 @@ export const requestTasksTC = (todoListId: string) => async (dispatch: Dispatch<
 
         dispatch( setTasksAC(todoListId, response.items) );
 
-    } catch {
-        // todo: fix
+        if (response.error) dispatch( setAppMessageAC({error: response.error}) );
+
+    } catch(e: any) {
+        handleHTTPResponseError(e, dispatch);
     }
 }
 
 export const removeTaskTC = (todoListId: string, taskId: string) => async (dispatch: Dispatch<any>) => {
     try {
         dispatch( setAppRequestStatusAC('loading') );
-        await taskListsAPI.deleteTask(todoListId, taskId);
-        dispatch( setAppRequestStatusAC('idle') );
+        let response = await taskListsAPI.deleteTask(todoListId, taskId);
+        // dispatch( setAppRequestStatusAC('idle') );
 
-        dispatch(removeTaskAC(todoListId, taskId));
-    } catch {
-        // todo: fix
+        // if (response.resultCode === ResponseResultCodesEnum.Success) {
+        //     dispatch(removeTaskAC(todoListId, taskId));
+        // }
+        // handleServerRequestError(response.messages[0], dispatch);
+
+        handleAPIResponseError<typeof removeTaskAC>(response, dispatch, removeTaskAC, [todoListId, taskId]);
+
+    } catch(e: any) {
+        handleHTTPResponseError(e, dispatch);
     }
 }
 
@@ -136,19 +145,17 @@ export const addNewTaskTC = (todoListId: string, taskTitle: string) => async (di
     try {
         dispatch( setAppRequestStatusAC('loading') );
         let response = await taskListsAPI.createTask(todoListId, taskTitle);
-        dispatch( setAppRequestStatusAC('idle') );
+        // dispatch( setAppRequestStatusAC('idle') );
 
-        if (response.resultCode === ResponseResultCodesEnum.Success) {
-            dispatch(addNewTaskAC(response.data.item));
+        // if (response.resultCode === ResponseResultCodesEnum.Success) {
+        //     dispatch(addNewTaskAC(response.data.item));
+        // }
+        // handleServerRequestError(response.messages[0], dispatch);
 
-        } else if (response.messages.length) {
-            dispatch(setAppMessageAC({error: response.messages[0]}));
+        handleAPIResponseError<typeof addNewTaskAC>(response, dispatch, addNewTaskAC, [response.data.item]);
 
-        } else {
-            dispatch(setAppMessageAC({error: 'Some error occurred'}));
-        }
-    } catch {
-        // todo: fix
+    } catch(e: any) {
+        handleHTTPResponseError(e, dispatch);
     }
 }
 
@@ -170,13 +177,18 @@ export const updateTaskTC = (todoListId: string, taskId: string, updatedProperti
         };
 
         dispatch( setAppRequestStatusAC('loading') );
-        await taskListsAPI.updateTask(todoListId, taskId, model);
-        dispatch( setAppRequestStatusAC('idle') );
+        const response = await taskListsAPI.updateTask(todoListId, taskId, model);
+        // dispatch( setAppRequestStatusAC('idle') );
 
-        dispatch(updateTaskAC(todoListId, taskId, model));
+        // if (response.resultCode === ResponseResultCodesEnum.Success) {
+        //     dispatch(updateTaskAC(todoListId, taskId, model));
+        // }
+        // handleServerRequestError(response.messages[0], dispatch);
+        
+        handleAPIResponseError<typeof updateTaskAC>(response, dispatch, updateTaskAC, [todoListId, taskId, model]);
 
-    } catch {
-        // todo: fix
+    } catch(e: any) {
+        handleHTTPResponseError(e, dispatch);
     }
 }
 

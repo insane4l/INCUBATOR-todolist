@@ -4,7 +4,7 @@ import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import Button from '@mui/material/Button';
 
 
-const AddNewItemForm: React.FC<AddNewItemFormPropsType> = React.memo( ({ addItem }) => {
+const AddNewItemForm: React.FC<AddNewItemFormPropsType> = React.memo( ({ addItem, disabled = false }) => {
     // console.log('AddNewItemForm rendered');
     const [newItemTitle, setNewItemTitle] = useState<string>('');
     const [validationError, setValidationError] = useState<string | null>(null);
@@ -44,9 +44,15 @@ const AddNewItemForm: React.FC<AddNewItemFormPropsType> = React.memo( ({ addItem
                 helperText={validationError}
                 sx={{width: '100%'}}
                 autoFocus
+                disabled={disabled}
             />
 
-            <Button variant="contained" color="primary" onClick={onSubmitHandler} sx={{width: '100%', mt: '6px', mb: 3}}>
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={onSubmitHandler}
+                sx={{width: '100%', mt: '6px', mb: 3}}
+                disabled={disabled}>
                 <AddIcon />
             </Button>
             {/* <IconButton  aria-label="delete" sx={{display: 'block', width: '100%'}}>
@@ -61,4 +67,5 @@ export default AddNewItemForm;
 
 type AddNewItemFormPropsType = {
     addItem: (itemTitle: string) => void
+    disabled?: boolean
 }
