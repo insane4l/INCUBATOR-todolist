@@ -4,12 +4,14 @@ import taskListsReducer from "./taskListsReducer";
 import todoListsReducer from "./todoListsReducer";
 import thunkMiddleware from 'redux-thunk'
 import appReducer from "./appReducer";
+import authReducer from "./authReducer";
 
 const reducers = combineReducers({
     todoLists: todoListsReducer,
     taskLists: taskListsReducer,
     colorTheme: colorThemeReducer,
     app: appReducer,
+    auth: authReducer,
 });
 
 export type AppRootStateType = ReturnType<typeof reducers>

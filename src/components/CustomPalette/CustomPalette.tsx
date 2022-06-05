@@ -90,16 +90,15 @@ const CustomPalette: React.FC<{hideCustomPalette: ()=>void}> = React.memo( ({hid
     }
 
     const mappedColorPickers = cPickersArr.map((el, i) => (
-        <>
+        <React.Fragment key={el.label}>
             <SuperColorPicker 
-                // key={el.label}
                 autoFocus={i === 0}
                 value={el.value}
                 label={el.label}
                 onColorChange={el.callback} />
 
             {el.div && <Divider />}
-        </>
+        </React.Fragment>
     ))
 
     return (

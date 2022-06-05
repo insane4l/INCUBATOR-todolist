@@ -5,9 +5,12 @@ import AppContainer from './App/AppContainer';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import { store } from './bll/store';
+import { HashRouter } from 'react-router-dom';
 
 ReactDOM.render(<Provider store={store}>
-                    <AppContainer />
+                    <HashRouter>
+                        <AppContainer />
+                    </HashRouter>
                 </Provider>,  document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

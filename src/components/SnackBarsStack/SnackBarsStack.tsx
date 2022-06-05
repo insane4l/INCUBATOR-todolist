@@ -5,7 +5,7 @@ import { AppRootStateType } from '../../bll/store';
 import SuperSnackBar from '../common/SuperSnackBar/SuperSnackBar';
 
 // todo: code refactoring
-const SnackBarsStack = () => {
+const SnackBarsStack = React.memo( () => {
 
     const successMessage = useSelector<AppRootStateType, AppMessageType>(state => state.app.appMessages.success);
     const errorMessage = useSelector<AppRootStateType, AppMessageType>(state => state.app.appMessages.error);
@@ -30,6 +30,6 @@ const SnackBarsStack = () => {
 
         </>
     )
-}
+})
 
 export default SnackBarsStack;

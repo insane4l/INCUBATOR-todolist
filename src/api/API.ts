@@ -14,8 +14,12 @@ export enum ResponseResultCodesEnum {
     Error,
 }
 
-export type ResponseType<D = {}> = {
-    resultCode: ResponseResultCodesEnum
+export enum ResponseCaptchaResultCodeEnum {
+    CaptchaRequired = 10,
+}
+
+export type ResponseType<D = {}, RC = ResponseResultCodesEnum> = {
+    resultCode: RC
     messages: string[]
     data: D
 }

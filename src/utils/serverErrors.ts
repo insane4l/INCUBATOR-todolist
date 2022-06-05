@@ -12,6 +12,7 @@ export function handleAPIResponseError<AC extends Function>(response: ResponseTy
         dispatch( setAppMessageAC({error: response.messages[0] || 'Some error occurred'}) );
 
     }
+
     dispatch( setAppRequestStatusAC('idle') );
 }
 

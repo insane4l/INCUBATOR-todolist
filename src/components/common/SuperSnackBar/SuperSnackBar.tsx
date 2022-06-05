@@ -5,7 +5,7 @@ import { AlertColor } from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
 
 
-const SuperSnackBar: React.FC<SuperSnackBarPropsType> = ({ message, alertStyle, onClose, open }) => {
+const SuperSnackBar: React.FC<SuperSnackBarPropsType> = React.memo( ({ message, alertStyle, onClose, open }) => {
 
     const handleSnackBarClose = (event: React.SyntheticEvent<any> | Event, reason: SnackbarCloseReason) => {
         if (reason === 'clickaway') {
@@ -32,7 +32,7 @@ const SuperSnackBar: React.FC<SuperSnackBarPropsType> = ({ message, alertStyle, 
             </MuiAlert>
         </Snackbar>
     );
-}
+})
 
 export default SuperSnackBar;
 

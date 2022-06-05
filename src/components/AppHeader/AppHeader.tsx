@@ -19,7 +19,8 @@ import CustomPalette from '../CustomPalette/CustomPalette';
 import { setColorModeAC } from '../../bll/colorThemeReducer';
 import ProgressBar from './ProgressBar/ProgressBar';
 import { AppRootStateType } from '../../bll/store';
-
+import { logoutTC } from '../../bll/authReducer';
+import { Link } from 'react-router-dom';
 
 type AppHeaderPropsType = {isAuth: boolean}
 
@@ -144,6 +145,10 @@ const RightMenu: React.FC<RightMenuPropsType> = ({isAuth, togglePaletteDisplay, 
         hideCustomPalette();
     }
 
+    const logoutHandler = () => {
+        dispatch( logoutTC() );
+    }
+
     return (
         <Box sx={{ m: "0 0 0 auto" }}>
             <MenuButton descr='Set custom palette' onClick={togglePaletteDisplay}>
@@ -160,8 +165,8 @@ const RightMenu: React.FC<RightMenuPropsType> = ({isAuth, togglePaletteDisplay, 
             }
 
             {isAuth
-                ? <Button color="inherit">Logout</Button>
-                : <Button color="inherit">Login</Button>
+                ? <Button color="inherit" onClick={logoutHandler}>Logout</Button>
+                : <Button color="inherit"><Link style={{font: 'inherit', color: 'inherit', textDecoration: 'none'}} to='/login'>Login</Link></Button>
             }
         </Box>
     )

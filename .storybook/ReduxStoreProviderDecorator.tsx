@@ -9,6 +9,8 @@ import { AppRootStateType } from '../src/bll/store';
 import taskListsReducer from '../src/bll/taskListsReducer';
 import todoListsReducer, { TodoListDomainType } from '../src/bll/todoListsReducer';
 import thunkMiddleware from 'redux-thunk';
+import appReducer from '../src/bll/appReducer';
+import authReducer from '../src/bll/authReducer';
 
 
 export const todoListsId = [
@@ -63,6 +65,14 @@ const initialGlobalState: AppRootStateType = {
             error: null,
             info: null,
         },
+        isInitialized: false,
+    },
+    auth: {
+        isAuth: false,
+        id: null,
+        email: null,
+        login: null,
+        captchaURL: null,
     }
 }
 
@@ -72,6 +82,8 @@ const rootReducer = combineReducers({
     todoLists: todoListsReducer,
     taskLists: taskListsReducer,
     colorTheme: colorThemeReducer,
+    app: appReducer,
+    auth: authReducer,
 })
 
 

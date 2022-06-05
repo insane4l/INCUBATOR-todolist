@@ -4,25 +4,28 @@ import AppHeader from '../components/AppHeader/AppHeader';
 import Box from '@mui/material/Box';
 import TodoListsList from '../features/TodoListsList/TodoListsList';
 import SnackBarsStack from '../components/SnackBarsStack/SnackBarsStack';
-import { useDispatch } from 'react-redux';
-import { setAppMessageAC } from '../bll/appReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { initializeAppTC } from '../bll/appReducer';
+import { Routes, Route } from 'react-router-dom';
+import Login from '../features/Login/Login';
+import { AppRootStateType } from '../bll/store';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
 function App() {
     // console.log('App rendered');
 
+    const isAppInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized);
+    const isUserAuthorized = useSelector<AppRootStateType, boolean>(state => state.auth.isAuth);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const timerId = setTimeout( () => {
-            dispatch( setAppMessageAC({info: 'Double click to change TodoList or Task title'}) );
-        }, 6000);
-
-        return () => clearTimeout(timerId);
+        dispatch(initializeAppTC());
     }, [])
 
-    const isUserAuthorized = true; // todo: useSelector(data from authReducer state - from server)
+
+    if (!isAppInitialized) return <CircularProgress />
 
     return (
 
@@ -30,7 +33,10 @@ function App() {
             <AppHeader isAuth={isUserAuthorized} />
 
             <Container fixed>
-                <TodoListsList />
+                <Routes>
+                    <Route path="/" element={<TodoListsList />}/>
+                    <Route path="/login" element={<Login />}/>
+                </Routes>
             </Container>
 
             <SnackBarsStack />

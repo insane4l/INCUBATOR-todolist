@@ -4,16 +4,28 @@ import { AppRootStateType } from '../../bll/store';
 import { requestTodoListsTC } from '../../bll/todoListsReducer';
 import TodoList from '../../components/TodoList/TodoList';
 import Grid from '@mui/material/Grid';
+import {Navigate} from 'react-router-dom';
+import { setAppMessageAC } from '../../bll/appReducer';
 
 const TodoListsList = () => {
 
+    const isUserAuthorized = useSelector<AppRootStateType, boolean>(state => state.auth.isAuth);
     const todoLists = useSelector( (state: AppRootStateType) => state.todoLists );
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(requestTodoListsTC());
+        if (isUserAuthorized) dispatch(requestTodoListsTC());
+
+        const timerId = setTimeout( () => {
+            dispatch( setAppMessageAC({info: 'Double click to change TodoList or Task title'}) );
+        }, 6000);
+
+        return () => clearTimeout(timerId);
     }, [])
+
+
+    if (!isUserAuthorized) return <Navigate to="/login" />
 
 
     const mappedTodoLists = todoLists.map(list => {

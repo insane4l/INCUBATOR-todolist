@@ -7,6 +7,7 @@ let startState: AppStateType = {
         error: null,
         info: null,
     },
+    isInitialized: false,
 };
 
 test('correct error message should be set correctly', () => {
